@@ -22,8 +22,8 @@ const unsigned int SCR_HEIGHT = 600;
 // TODO: Þimdilik herkes kendi pathini verecek. Daha sonrasýnda C# için ayarlama yapýlacak.
 //const char* VertexShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
 //const char* FragmentShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
-const char* VertexShaderPath = "D:/ResearchProject/Source/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
-const char* FragmentShaderPath = "D:/ResearchProject/Source/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
+const char* VertexShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/vertex_core.glsl";
+const char* FragmentShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/fragment_core.glsl";
 
 void CustomRender::Render() {
 
