@@ -115,16 +115,22 @@ void CustomRender::Render() {
 
     //VERTEX ARRAY
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
+        0.5f, 0.5f, 0.0f, // top right
+        -0.5f, 0.5f, 0.0f, // top left
+        -0.5f, -0.5f, 0.0f, // bottom left
+        0.5f, -0.5f, 0.0f, // bottom right
+    };
 
+    unsigned int indices[] = {
+        0,1,2, //first triangle
+        2,3,0 // second triangle
     };
 
     //VAO, VBO
-    unsigned int VAO, VBO;
+    unsigned int VAO, VBO,EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
     // bind VAO
     glBindVertexArray(VAO);
@@ -137,18 +143,15 @@ void CustomRender::Render() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    float lastTime;
-    GLfloat vert = glGetAttribLocation(shaderProgram, "time");
-    //glEnableVertexAttribArray(vert);
+    //set up EBO
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
    
 
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-        lastTime = glfwGetTime();
-        //std::cout << lastTime << std::endl;
-        glVertexAttrib1f(vert, lastTime);
         // input
         // -----
         ProcessInput(window);
@@ -161,7 +164,8 @@ void CustomRender::Render() {
         //draw shapes
         glBindVertexArray(VAO);
         glUseProgram(shaderProgram);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //glDrawArrays(GL_TRIANGLES, 0,6);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -171,8 +175,12 @@ void CustomRender::Render() {
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VAO);
+    glDeleteBuffers(1, &EBO);
+
     glfwTerminate();
-    
 }
 
 void ProcessInput(GLFWwindow* window)
