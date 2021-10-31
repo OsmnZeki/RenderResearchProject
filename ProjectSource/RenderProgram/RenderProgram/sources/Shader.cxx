@@ -78,10 +78,15 @@ GLuint Shader::CompileShader(const char* filePath, GLenum type) {
 }
 
 //uniform functions (shader içerisine deðer atamak için)
-//fonksiyonlar aktif shader için çalýþacak
+//fonksiyonlar aktif shader için çalýþacak o yüzden activate çaðýrýlýyor
 //shader içerisindeki mat4 deðiþkenine deðer atar
 void Shader::SetMat4(const std::string& name, glm::mat4 val) {
 	Activate();
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(val));
+}
 
+//shader içerisindeki int deðiþkenine deðer atar
+void Shader::SetInt(const std::string& name, int val) {
+	Activate();
+	glUniform1i(glGetUniformLocation(id, name.c_str()), val);
 }

@@ -6,8 +6,6 @@
 #include <string>
 #include"RenderProgram.h"
 
-#include "STB/stb_image.h"
-
 #include "glad.h"
 #include "glfw3.h"
 
@@ -18,14 +16,19 @@
 #include "Shader.h"
 #include "FilePaths.h"
 
-//#include <experimental/filesystem> current path i bulmak istiyosan a�
+//#include <experimental/filesystem> current path i bulmak istiyosan aç
  
+
+
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ProcessInput(GLFWwindow* window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+// TODO: Şimdilik herkes kendi pathini verecek. Daha sonrasında C# için ayarlama yapılacak.
+const char* VertexShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
+const char* FragmentShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
 
 void CustomRender::Render() {
 
@@ -60,16 +63,16 @@ void CustomRender::Render() {
 
 
     //shaders compile
-    Shader shader(FilePathOsman::ShadersPath+"/vertex_core.glsl", FilePathOsman::ShadersPath + "/fragment_core.glsl");
-    Shader shader2(FilePathOsman::ShadersPath + "/vertex_core.glsl", FilePathOsman::ShadersPath + "/fragment_core2.glsl");
+    Shader shader(FilePathOsman::ShadersPath+"vertex_core.glsl", FilePathOsman::ShadersPath + "fragment_core.glsl");
+    Shader shader2(FilePathOsman::ShadersPath + "vertex_core.glsl", FilePathOsman::ShadersPath + "fragment_core2.glsl");
 
     //VERTEX ARRAY
     float vertices[] = {
-        //positions           //colors              //textures
-       -0.5f, -0.5f, 0.0f,    1.0f, 1.0f, 0.5f,     0.0f,0.0f, //bottom left
-       -0.5f,  0.5f, 0.0f,    0.5f, 1.0f, 0.75f,    0.0f,1.0f, //top left
-        0.5f, -0.5f, 0.0f,    0.6f, 1.0f, 0.2f,     1.0f,0.0f, //bottom right
-        0.5f,  0.5f, 0.0f,    1.0f, 0.2f, 1.0f,      1.0f,1.0f //top right
+        //positions             //colors
+       -0.25f, -0.5f, 0.0f,    1.0f, 1.0f, 0.5f,
+        0.15f,  0.0f, 0.0f,    0.5f, 1.0f, 0.75f,
+        0.0f,   0.5f, 0.0f,    0.6f, 1.0f, 0.2f,
+        0.5f,  -0.4f, 0.0f,    1.0f, 0.2f, 1.0f
     };
 
     unsigned int indices[] = {
@@ -91,58 +94,26 @@ void CustomRender::Render() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     //set attribute pointer
-    // 
     //position attribute in vertex shader
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
     //color attribute in vertex shader
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-    //texture attribute in vertex shader
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-
-    //Textures
-    unsigned int texture1;
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    //Load Image
-    int width, height, nChannels;
-    std::string imagePathString = (FilePathOsman::ImagePath + "/image2.jpg");
-    const char* imagePath = imagePathString.c_str();
-    
-    unsigned char* imageData = stbi_load(imagePath, &width, &height, &nChannels, 0);
-
-    if (imageData) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        std::cout << "Failed to load image" << std::endl;
-    }
-    stbi_image_free(imageData);
-
-    shader.SetInt("texture1",0);
 
     //set up EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
    
-    /*glm::mat4 trans = glm::mat4(1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(trans, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     shader.SetMat4("transform", trans);
 
     glm::mat4 trans2 = glm::mat4(1.0f);
     trans2 = glm::scale(trans2, glm::vec3(1.5f));
     trans2 = glm::rotate(trans2, glm::radians(15.f), glm::vec3(0.0f, 0.0f, 1.0f));
-    shader2.SetMat4("transform", trans2);*/
+    shader2.SetMat4("transform", trans2);
 
     // render loop
     // -----------
@@ -157,22 +128,19 @@ void CustomRender::Render() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-
         //draw shapes
         glBindVertexArray(VAO);
 
-        //trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        //shader.SetMat4("transform", trans); 
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader.SetMat4("transform", trans); 
         shader.Activate();
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
 
-       /* trans2 = glm::rotate(trans2, glm::radians((float)glfwGetTime() / -100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        trans2 = glm::rotate(trans2, glm::radians((float)glfwGetTime() / -100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         shader2.SetMat4("transform", trans2);
         shader2.Activate();
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)(3 * sizeof(GLuint)));*/
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)(3 * sizeof(GLuint)));
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
