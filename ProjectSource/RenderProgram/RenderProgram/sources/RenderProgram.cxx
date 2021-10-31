@@ -9,28 +9,28 @@
 #include "glad.h"
 #include "glfw3.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include "Shader.h"
+
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
  
 
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ProcessInput(GLFWwindow* window);
-std::string LoadShaderSrc(const char* filename);
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 // TODO: Þimdilik herkes kendi pathini verecek. Daha sonrasýnda C# için ayarlama yapýlacak.
-//const char* VertexShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
-//const char* FragmentShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
-const char* VertexShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/vertex_core.glsl";
-const char* FragmentShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/fragment_core.glsl";
+const char* VertexShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
+const char* FragmentShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
+const std::string OsmanShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/";
 
 void CustomRender::Render() {
-
-    int success;
-    char infoLog[512];
-    
-
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -61,69 +61,22 @@ void CustomRender::Render() {
         return;
     }
 
-    /*
-    shaders
-    */
-
-    // compile vertex shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    std::string vertexShaderSrc = LoadShaderSrc(VertexShaderPath);
-    const  GLchar* VertShader = vertexShaderSrc.c_str();
-    glShaderSource(vertexShader, 1, &VertShader, NULL);
-    glCompileShader(vertexShader);
-
-    // catch error
-    glGetShaderiv(vertexShader ,GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "Error with vertex shader comp.:" << std::endl << infoLog << std::endl;
-    }
-
-    // compile fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderSrc = LoadShaderSrc(FragmentShaderPath);
-    const  GLchar* FragShader = fragmentShaderSrc.c_str();
-    glShaderSource(fragmentShader, 1, &FragShader, NULL);
-    glCompileShader(fragmentShader);
-
-    // catch error
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success); 
-    if (!success) {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "Error with frag shader comp.:" << std::endl << infoLog << std::endl;
-    }
-
-    // create program
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // catch errors
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "Linking error:" << std::endl << infoLog << std::endl;
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    //shaders compile
+    Shader shader(OsmanShaderPath+"vertex_core.glsl", OsmanShaderPath + "fragment_core.glsl");
+    Shader shader2(OsmanShaderPath + "vertex_core.glsl", OsmanShaderPath + "fragment_core2.glsl");
 
     //VERTEX ARRAY
     float vertices[] = {
-        0.5f, 0.5f, 0.0f, // top right
-        -0.5f, 0.5f, 0.0f, // top left
-        -0.5f, -0.5f, 0.0f, // bottom left
-        0.5f, -0.5f, 0.0f, // bottom right
+        //positions             //colors
+       -0.25f, -0.5f, 0.0f,    1.0f, 1.0f, 0.5f,
+        0.15f,  0.0f, 0.0f,    0.5f, 1.0f, 0.75f,
+        0.0f,   0.5f, 0.0f,    0.6f, 1.0f, 0.2f,
+        0.5f,  -0.4f, 0.0f,    1.0f, 0.2f, 1.0f
     };
 
     unsigned int indices[] = {
         0,1,2, //first triangle
-        2,3,0 // second triangle
+        3,1,2 // second triangle
     };
 
     //VAO, VBO
@@ -140,13 +93,26 @@ void CustomRender::Render() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     //set attribute pointer
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    //position attribute in vertex shader
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    //color attribute in vertex shader
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     //set up EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
    
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    shader.SetMat4("transform", trans);
+
+    glm::mat4 trans2 = glm::mat4(1.0f);
+    trans2 = glm::scale(trans2, glm::vec3(1.5f));
+    trans2 = glm::rotate(trans2, glm::radians(15.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    shader2.SetMat4("transform", trans2);
 
     // render loop
     // -----------
@@ -163,9 +129,17 @@ void CustomRender::Render() {
 
         //draw shapes
         glBindVertexArray(VAO);
-        glUseProgram(shaderProgram);
-        //glDrawArrays(GL_TRIANGLES, 0,6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader.SetMat4("transform", trans); 
+        shader.Activate();
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
+
+        trans2 = glm::rotate(trans2, glm::radians((float)glfwGetTime() / -100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader2.SetMat4("transform", trans2);
+        shader2.Activate();
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)(3 * sizeof(GLuint)));
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -198,27 +172,6 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-std::string LoadShaderSrc(const char* filename) {
-
-    std::ifstream file;
-    std::stringstream buf;
-    std::string ret = "";
-
-    file.open(filename);
-    //std::cout<<std::experimental::filesystem::current_path()<<std::endl;
-    
-    if (file.is_open()) {
-
-        buf << file.rdbuf();
-        ret = buf.str();
-    }
-    else {
-        std::cout << "Could not open " << filename << std::endl;
-    }
-    file.close();
-    return ret;
-
-}
 
 CustomRender::CustomRender()
 {

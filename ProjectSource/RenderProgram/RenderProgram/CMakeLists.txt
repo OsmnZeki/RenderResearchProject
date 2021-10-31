@@ -11,5 +11,6 @@ file( GLOB_RECURSE glsl "[^.]*.glsl")
 ADD_LIBRARY(RenderProgram STATIC ${RDRP_SOURCE_FILES} ${RDRP_HEADER_FILES} ${GLSRC} ${STB}  ${glsl})
 
 include_directories("${CMAKE_SOURCE_DIR}/OpenGL/include")
+include_directories(include)
 
 TARGET_LINK_LIBRARIES(RenderProgram ${GLFW} ${GLM_LIBRARIES})
