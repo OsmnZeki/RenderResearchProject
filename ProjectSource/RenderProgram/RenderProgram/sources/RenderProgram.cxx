@@ -14,6 +14,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Shader.h"
+#include "FilePaths.h"
 
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
  
@@ -28,7 +29,6 @@ const unsigned int SCR_HEIGHT = 600;
 // TODO: Þimdilik herkes kendi pathini verecek. Daha sonrasýnda C# için ayarlama yapýlacak.
 const char* VertexShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/vertex_core.glsl";
 const char* FragmentShaderPath = "D:/ResearchProjectSource/Render/RenderSource/RenderProgram/RenderProgram/Assets/fragment_core.glsl";
-const std::string OsmanShaderPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets/Shaders/";
 
 void CustomRender::Render() {
 
@@ -61,9 +61,10 @@ void CustomRender::Render() {
         return;
     }
 
+
     //shaders compile
-    Shader shader(OsmanShaderPath+"vertex_core.glsl", OsmanShaderPath + "fragment_core.glsl");
-    Shader shader2(OsmanShaderPath + "vertex_core.glsl", OsmanShaderPath + "fragment_core2.glsl");
+    Shader shader(FilePathOsman::ShadersPath+"vertex_core.glsl", FilePathOsman::ShadersPath + "fragment_core.glsl");
+    Shader shader2(FilePathOsman::ShadersPath + "vertex_core.glsl", FilePathOsman::ShadersPath + "fragment_core2.glsl");
 
     //VERTEX ARRAY
     float vertices[] = {
