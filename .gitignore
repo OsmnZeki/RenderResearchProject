@@ -1,2 +1,5 @@
 #Osman proje dosyası konumu
 ProjectBuild/
+
+#Bir kere her local bilgisayar olması için gönderiliyor.
+#(Gönderdikten sonra burayı sil) LocalPath.h
