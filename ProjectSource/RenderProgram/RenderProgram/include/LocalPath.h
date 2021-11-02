@@ -2,10 +2,10 @@
 
 enum LocalPathType
 {
-	OsmanPath, OgulcanPath,
+	OsmanPath, OgulcanPath, OsmanPathLap
 };
 
-#define LOCALPATH OsmanPath
+#define LOCALPATH OsmanPathLap
 #endif
 
 

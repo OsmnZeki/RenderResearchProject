@@ -4,11 +4,16 @@
 
 std::string FilePathOsman::AssetsPath = "D:/GitRepos/ResearchProject/ProjectSource/RenderProgram/Assets";
 std::string FilePathOsman::AssetsPathLap = "C:/ResearchProject/ProjectSource/RenderProgram/Assets";
+std::string FilePathOgulcan::AssetsPath = "blablabla";
 
 #if LOCALPATH == LocalPathType::OsmanPath
+std::string FilePath::CurrentAssetsPath = FilePathOsman::AssetsPath;
+
+#elif LOCALPATH == LocalPathType::OsmanPathLap
 std::string FilePath::CurrentAssetsPath = FilePathOsman::AssetsPathLap;
-//std::string FilePath::CurrentAssetsPath = FilePathOsman::AssetsPath;
+
 #else
+std::string FilePath::CurrentAssetsPath = FilePathOgulcan::AssetsPath;
 
 #endif
 

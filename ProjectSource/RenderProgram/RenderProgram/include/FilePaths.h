@@ -18,6 +18,6 @@ public:
 
 class FilePathOgulcan {
 public:
-
+	static std::string AssetsPath;
 };
 

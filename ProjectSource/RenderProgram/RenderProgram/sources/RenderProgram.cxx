@@ -146,8 +146,8 @@ void CustomRender::Render() {
         //draw shapes
         glBindVertexArray(VAO);
 
-       // trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        //shader.SetMat4("transform", trans); 
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader.SetMat4("transform", trans); 
         shader.Activate();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
