@@ -30,6 +30,8 @@ const unsigned int SCR_HEIGHT = 600;
 
 void CustomRender::Render() {
 
+
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -61,8 +63,8 @@ void CustomRender::Render() {
 
 
     //shaders compile
-    Shader shader(FilePathOsman::ShadersPath+"/vertex_core.glsl", FilePathOsman::ShadersPath + "/fragment_core.glsl");
-    Shader shader2(FilePathOsman::ShadersPath + "/vertex_core.glsl", FilePathOsman::ShadersPath + "/fragment_core2.glsl");
+    Shader shader(FilePath::ShadersPath+"/vertex_core.glsl", FilePath::ShadersPath + "/fragment_core.glsl");
+    Shader shader2(FilePath::ShadersPath + "/vertex_core.glsl", FilePath::ShadersPath + "/fragment_core2.glsl");
 
     //VERTEX ARRAY
     float vertices[] = {
@@ -105,8 +107,8 @@ void CustomRender::Render() {
 
     //Textures
     stbi_set_flip_vertically_on_load(true);
-    Texture tex1 = Texture(FilePathOsman::ImagePath + "/image2.jpg", 3);
-    Texture tex2 = Texture(FilePathOsman::ImagePath + "/image1.png", 4);
+    Texture tex1 = Texture(FilePath::ImagePath + "/image2.jpg", 3);
+    Texture tex2 = Texture(FilePath::ImagePath + "/image1.png", 4);
     shader.SetInt("texture1",0);
     shader.SetInt("texture2", 1);
 
@@ -144,8 +146,8 @@ void CustomRender::Render() {
         //draw shapes
         glBindVertexArray(VAO);
 
-        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        shader.SetMat4("transform", trans); 
+       // trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        //shader.SetMat4("transform", trans); 
         shader.Activate();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
