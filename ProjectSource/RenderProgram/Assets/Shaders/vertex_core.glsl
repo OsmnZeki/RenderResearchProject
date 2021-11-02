@@ -9,8 +9,8 @@ out vec2 texCoord;
 uniform mat4 transform; // set in code
 
 void main(){
-	//gl_Position = transform * vec4(aPos,1.0f);
-	gl_Position = vec4(aPos,1.0f);
+	gl_Position = transform * vec4(aPos,1.0f);
+	//gl_Position = vec4(aPos,1.0f);
 
 	ourColor = aColor;
 	texCoord = aTexCoord;

@@ -33,7 +33,6 @@ void Shader::Activate() {
 	glUseProgram(id);
 }
 
-
 //utility functions
 std::string Shader::LoadShaderSrc(const char* filename) {
 
@@ -56,7 +55,6 @@ std::string Shader::LoadShaderSrc(const char* filename) {
 	return ret;
 
 }
-
 GLuint Shader::CompileShader(const char* filePath, GLenum type) {
 	int success;
 	char infoLog[512];
@@ -84,9 +82,10 @@ void Shader::SetMat4(const std::string& name, glm::mat4 val) {
 	Activate();
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(val));
 }
-
 //shader içerisindeki int deðiþkenine deðer atar
 void Shader::SetInt(const std::string& name, int val) {
 	Activate();
 	glUniform1i(glGetUniformLocation(id, name.c_str()), val);
 }
+
+//Texture Functions

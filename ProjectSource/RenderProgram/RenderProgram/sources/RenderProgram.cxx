@@ -17,6 +17,7 @@
 
 #include "Shader.h"
 #include "FilePaths.h"
+#include "Texture.h"
 
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
  
@@ -103,43 +104,21 @@ void CustomRender::Render() {
     glEnableVertexAttribArray(2);
 
     //Textures
-    unsigned int texture1;
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    //Load Image
-    int width, height, nChannels;
-    std::string imagePathString = (FilePathOsman::ImagePath + "/image2.jpg");
-    const char* imagePath = imagePathString.c_str();
-    
-    unsigned char* imageData = stbi_load(imagePath, &width, &height, &nChannels, 0);
-
-    if (imageData) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        std::cout << "Failed to load image" << std::endl;
-    }
-    stbi_image_free(imageData);
-
+    stbi_set_flip_vertically_on_load(true);
+    Texture tex1 = Texture(FilePathOsman::ImagePath + "/image2.jpg", 3);
+    Texture tex2 = Texture(FilePathOsman::ImagePath + "/image1.png", 4);
     shader.SetInt("texture1",0);
+    shader.SetInt("texture2", 1);
 
     //set up EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
    
-    /*glm::mat4 trans = glm::mat4(1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(trans, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     shader.SetMat4("transform", trans);
 
-    glm::mat4 trans2 = glm::mat4(1.0f);
+    /*glm::mat4 trans2 = glm::mat4(1.0f);
     trans2 = glm::scale(trans2, glm::vec3(1.5f));
     trans2 = glm::rotate(trans2, glm::radians(15.f), glm::vec3(0.0f, 0.0f, 1.0f));
     shader2.SetMat4("transform", trans2);*/
@@ -158,13 +137,15 @@ void CustomRender::Render() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
+        glBindTexture(GL_TEXTURE_2D, tex1.textureID);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, tex2.textureID);
 
         //draw shapes
         glBindVertexArray(VAO);
 
-        //trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        //shader.SetMat4("transform", trans); 
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() / 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader.SetMat4("transform", trans); 
         shader.Activate();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
