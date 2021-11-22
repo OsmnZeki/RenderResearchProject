@@ -5,7 +5,7 @@
 #ifndef LOCALPATH_OSMAN
 #endif 
 
-#define LOCALPATH_OGULCAN 
+#define LOCALPATH_OSMANLAP 
 
 
 
