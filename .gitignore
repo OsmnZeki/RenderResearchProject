@@ -2,5 +2,5 @@
 ProjectBuild/
 
 #Bir kere her local bilgisayar olması için gönderiliyor.
-#ProjectSource/RenderProgram/RenderProgram/include/LocalPath.h
+ProjectSource/RenderProgram/RenderProgram/include/LocalPath.h
 
