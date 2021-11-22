@@ -1,6 +1,5 @@
 #Osman proje dosyası konumu
-ProjectBuild/
 
-#Bir kere her local bilgisayar olması için gönderiliyor.
-ProjectSource/RenderProgram/RenderProgram/include/LocalPath.h
+ProjectBuild/
+ProjectSource\ProjectSource\RenderProgram\RenderProgram\include\LocalPath.h
 

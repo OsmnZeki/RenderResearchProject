@@ -1,0 +1,1 @@
+Github için gitignore içerisine LocalPathi ekle gitmesin
