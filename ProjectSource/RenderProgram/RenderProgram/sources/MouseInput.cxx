@@ -68,14 +68,14 @@ double MouseInput::GetMouseY()
 double MouseInput::GetDx()
 {
 	double _dx = dx;
-	_dx = 0;
+	dx = 0;
 	return _dx;
 }
 
 double MouseInput::GetDy()
 {
 	double _dy = dy;
-	_dy = 0;
+	dy = 0;
 	return _dy;
 }
 

@@ -21,10 +21,12 @@
 
 #include "KeyboardInput.h"
 #include "MouseInput.h"
+
+#include "Camera.h"
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
-void ProcessInput(GLFWwindow* window);
+void ProcessInput(GLFWwindow* window, double dt);
 
 // settings
 unsigned int SCR_WIDTH = 800;
@@ -34,6 +36,17 @@ float x, y, z;
 float mixVal = 0.5f;
 
 glm::mat4 transform = glm::mat4(1.0f);
+
+Camera cameras[2] = {
+	Camera(glm::vec3(0.0f, 0.0f,3.0f)),
+	Camera(glm::vec3(0, 0, 15.0f))
+};
+
+int activeCamera = 0;
+
+//Camera camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 void CustomRender::Render() {
 
@@ -76,6 +89,7 @@ void CustomRender::Render() {
 	glfwSetMouseButtonCallback(window, MouseInput::MouseButtonCallback);
 	glfwSetScrollCallback(window, MouseInput::MouseWheelCallback);
 
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -158,17 +172,16 @@ void CustomRender::Render() {
 	shader.SetInt("texture1", 0);
 	shader.SetInt("texture2", 1);
 
-	x = 0.0f;
-	y = 0.0f;
-	z = 3.0f;
-
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
+		double currentTime = glfwGetTime();
+		deltaTime = currentTime - lastFrame;
+		lastFrame = currentTime;
+
 		// input
-		// -----
-		ProcessInput(window);
+		ProcessInput(window, deltaTime);
 
 		// render
 		// ------
@@ -188,9 +201,10 @@ void CustomRender::Render() {
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(0.5f));
-		view = glm::translate(view, glm::vec3(-x, -y, -z));
-		projection = glm::perspective(glm::radians(90.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(90.0f), glm::vec3(0.5f, 0.0f, 0.0f));
+		//view = glm::translate(view, glm::vec3(-x, -y, -z));
+		view = cameras[activeCamera].GetViewMatrix();
+		projection = glm::perspective(glm::radians(cameras[activeCamera].zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
 		shader.SetMat4("model", model);
 		shader.SetMat4("view", view);
@@ -215,7 +229,7 @@ void CustomRender::Render() {
 	glfwTerminate();
 }
 
-void ProcessInput(GLFWwindow* window)
+void ProcessInput(GLFWwindow* window, double dt)
 {
 	if (KeyboardInput::Key(GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(window, true);
@@ -233,31 +247,50 @@ void ProcessInput(GLFWwindow* window)
 			mixVal = 0;
 	}
 
+	if (KeyboardInput::KeyWentDown(GLFW_KEY_TAB))
+	{
+		activeCamera += (activeCamera == 0) ? 1 : -1;
+	}
+
+	if (KeyboardInput::Key(GLFW_KEY_SPACE)) {
+
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::UP, dt);
+	}
+	if (KeyboardInput::Key(GLFW_KEY_LEFT_SHIFT)) {
+
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::DOWN, dt);
+	}
+	if (KeyboardInput::Key(GLFW_KEY_D)) {
+
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::RIGHT, dt);
+	}
+	if (KeyboardInput::Key(GLFW_KEY_A)) {
+
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::LEFT, dt);
+	}
 	if (KeyboardInput::Key(GLFW_KEY_W)) {
 
-		y += 1 / 5.0f;
-
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::FORWARD, dt);
 	}
 	if (KeyboardInput::Key(GLFW_KEY_S)) {
 
-		y -= 1 / 5.0f;
-	}
-	if (KeyboardInput::Key(GLFW_KEY_A)) {
-		x -= 1 / 5.0f;
-	}
-	if (KeyboardInput::Key(GLFW_KEY_D)) {
-		x += 1 / 5.0f;
+		cameras[activeCamera].UpdateCameraPos(CameraDirection::BACKWARD, dt);
 	}
 
-	if (KeyboardInput::Key(GLFW_KEY_Q)) {
-		z += 1 / 5.0f;
-	}
-	if (KeyboardInput::Key(GLFW_KEY_E)) {
-		z -= 1 / 5.0f;
+	double dx = MouseInput::GetDx();
+	double dy = MouseInput::GetDy();
+	if (dx != 0 || dy != 0)
+	{
+		
+		cameras[activeCamera].UpdataCameraDirection(dx, dy);
 	}
 
-	double dy = MouseInput::GetScrollDy();
-	transform = glm::scale(transform, glm::vec3(1 + dy / 10, 1 + dy / 10, 0.0f));
+	double scrollDy = MouseInput::GetScrollDy();
+	if (scrollDy != 0)
+	{
+		cameras[activeCamera].UpdateCameraZoom(scrollDy);
+	}
+
 
 }
 
