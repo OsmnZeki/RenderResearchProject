@@ -1,15 +1,22 @@
 #include "Shader.h"
 
 
-Shader::Shader( std::string VertexShaderPath,  std::string FragmentShaderPath) {
+Shader::Shader()
+{
+}
+
+Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
+
+	Generate(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+}
+
+void Shader::Generate(const char* vertexShaderPath, const char* fragShaderPath)
+{
 	int success;
 	char infoLog[512];
 
-	const char* vertexPath = VertexShaderPath.c_str();
-	const char* fragmentPath = FragmentShaderPath.c_str();
-
-	GLuint vertexShader = CompileShader(vertexPath, GL_VERTEX_SHADER);
-	GLuint fragmentShader = CompileShader(fragmentPath, GL_FRAGMENT_SHADER);
+	GLuint vertexShader = CompileShader(vertexShaderPath, GL_VERTEX_SHADER);
+	GLuint fragmentShader = CompileShader(fragShaderPath, GL_FRAGMENT_SHADER);
 
 	id = glCreateProgram();
 
@@ -26,7 +33,6 @@ Shader::Shader( std::string VertexShaderPath,  std::string FragmentShaderPath) {
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
-
 
 //aktif shaderi belirlemek için kullanýlýyor
 void Shader::Activate() {
@@ -91,5 +97,15 @@ void Shader::SetInt(const std::string& name, int val) {
 void Shader::SetFloat(const std::string& name, float val) {
 	Activate();
 	glUniform1f(glGetUniformLocation(id, name.c_str()), val);
+}
+void Shader::Set4Float(const std::string& name, float value, float value1, float value2, float value3)
+{
+	Activate();
+	glUniform4f(glGetUniformLocation(id, name.c_str()), value, value1, value2, value3);
+}
+void Shader::SetBool(const std::string& name, bool value)
+{
+	Activate();
+	glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
 //Texture Functions

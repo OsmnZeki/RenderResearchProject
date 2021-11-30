@@ -6,5 +6,5 @@ int main() {
 
 	CustomRender customRender;
 	customRender.Render();
-
+	
 }

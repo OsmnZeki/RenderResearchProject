@@ -1,1 +1,4 @@
 Github için gitignore içerisine LocalPathi ekle gitmesin
+
+RenderProgramın içine Graphics klasoru ac onun içindeki incl ve source shader.h ve cxx i koy. mesh le moddel de burdai.
+modeller model klasöründe olacak

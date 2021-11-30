@@ -1,0 +1,92 @@
+#ifndef CUBE_HPP
+#define CUBE_HPP
+
+#include "Model.h"
+#include "FilePaths.h"
+
+class Cube : public Model {
+public:
+	glm::vec3 pos;
+	glm::vec3 size;
+
+	Cube(glm::vec3 pos, glm::vec3 size)
+		: pos(pos), size(size) {}
+
+	void Initialize() {
+		int numbOfVertices = 36;
+
+		float vertices[] = {
+			//positions           textcoords
+			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		};
+
+		std::vector<unsigned int> indices(numbOfVertices);
+		for (unsigned int i = 0; i < numbOfVertices; i++) {
+			indices[i] = i;
+		}
+
+		std::string tex0Path = FilePath::ImagePath + "image1.png";
+		std::string tex1Path = FilePath::ImagePath + "image2.jpg";
+
+		Texture tex0(tex0Path.c_str(), "texture0");
+		tex0.Load();
+		Texture tex1(tex1Path.c_str(), "texture1");
+		tex1.Load();
+
+		meshes.push_back(Mesh(Vertex::genList(vertices, numbOfVertices), indices, { tex0,tex1 }));
+	}
+
+	void Render(Shader shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+
+		model = glm::translate(model, pos);
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(90.0f), glm::vec3(0.5f));
+		model = glm::scale(model, size);
+		
+		shader.SetMat4("model", model);
+
+		Model::Render(shader);
+	}
+};
+
+#endif

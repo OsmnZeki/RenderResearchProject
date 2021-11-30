@@ -1,3 +1,6 @@
+#ifndef FILEPATH_H
+#define FILEPATH_H
+
 #include "iostream"
 #include "string"
 
@@ -21,3 +24,4 @@ public:
 	static std::string AssetsPath;
 };
 
+#endif
