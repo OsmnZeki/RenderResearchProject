@@ -25,9 +25,9 @@
 #include "Camera.h"
 #include "Screen.h"
 #include "Cube.h"
+#include "Lamp.h"
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
 
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ProcessInput(double dt);
 
 // settings
@@ -80,10 +80,13 @@ void CustomRender::Render() {
 
 	//shaders compile
 	Shader shader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "object.fs");
+	Shader lampShader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "lamp.fs");
 
-	Cube cube(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.75f));
+	Cube cube(Material::gold,glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.75f));
 	cube.Initialize();
 	
+	Lamp lamp(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(-3.0f, -0.0f, -1.0f), glm::vec3(2.0f));
+	lamp.Initialize();
 
 	// render loop
 	while (!screen.ShouldClose())
@@ -99,24 +102,32 @@ void CustomRender::Render() {
 		// ------
 		screen.Update();
 
-		
+		shader.Activate();
+		shader.Set3Float("light.position", lamp.pos);
+		shader.Set3Float("viewPos", cameras[activeCamera].cameraPos);
+		shader.Set3Float("light.ambient", lamp.ambient);
+		shader.Set3Float("light.diffuse", lamp.diffuse);
+		shader.Set3Float("light.specular", lamp.specular);
 
 		//create transformations for screen
-		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 		view = cameras[activeCamera].GetViewMatrix();
 		projection = glm::perspective(glm::radians(cameras[activeCamera].GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
-		shader.SetMat4("model", model);
 		shader.SetMat4("view", view);
 		shader.SetMat4("projection", projection);
-		shader.SetFloat("mixVal", mixVal);
-
 		cube.Render(shader);
+
+		lampShader.Activate();
+		lampShader.SetMat4("view", view);
+		lampShader.SetMat4("projection", projection);
+		lamp.Render(lampShader);
+
 		screen.NewFrame();
 	}
 	cube.CleanUp();
+	lamp.CleanUp();
 	glfwTerminate();
 }
 
@@ -183,17 +194,6 @@ void ProcessInput(double dt)
 	}
 
 
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-	SCR_WIDTH = width;
-	SCR_HEIGHT = height;
 }
 
 

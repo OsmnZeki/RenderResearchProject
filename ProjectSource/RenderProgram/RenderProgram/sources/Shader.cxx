@@ -85,27 +85,42 @@ GLuint Shader::CompileShader(const char* filePath, GLenum type) {
 //fonksiyonlar aktif shader için çalýþacak o yüzden activate çaðýrýlýyor
 //shader içerisindeki mat4 deðiþkenine deðer atar
 void Shader::SetMat4(const std::string& name, glm::mat4 val) {
-	Activate();
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(val));
 }
 //shader içerisindeki int deðiþkenine deðer atar
 void Shader::SetInt(const std::string& name, int val) {
-	Activate();
 	glUniform1i(glGetUniformLocation(id, name.c_str()), val);
 }
 
 void Shader::SetFloat(const std::string& name, float val) {
-	Activate();
 	glUniform1f(glGetUniformLocation(id, name.c_str()), val);
 }
+
+void Shader::Set3Float(const std::string& name, glm::vec3 v)
+{
+	Set3Float(name, v.x, v.y, v.z);
+
+}
+
+void Shader::Set3Float(const std::string& name, float value, float value1, float value2)
+{
+	glUniform3f(glGetUniformLocation(id, name.c_str()), value, value1, value2);
+}
+
 void Shader::Set4Float(const std::string& name, float value, float value1, float value2, float value3)
 {
-	Activate();
 	glUniform4f(glGetUniformLocation(id, name.c_str()), value, value1, value2, value3);
 }
+
 void Shader::SetBool(const std::string& name, bool value)
 {
-	Activate();
 	glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
+}
+void Shader::SetMaterial(Material material)
+{
+	Set3Float("material.ambient", material.ambient);
+	Set3Float("material.diffuse", material.diffuse);
+	Set3Float("material.specular", material.specular);
+	SetFloat("material.shininess", material.shininess);
 }
 //Texture Functions

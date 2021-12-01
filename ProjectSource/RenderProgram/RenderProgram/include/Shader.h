@@ -11,6 +11,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "Material.h"
+
 class Shader {
 
 public:
@@ -30,8 +32,11 @@ public:
 	void SetMat4(const std::string& name, glm::mat4 val);
 	void SetInt(const std::string& name, int value);
 	void SetFloat(const std::string& name, float value);
+	void Set3Float(const std::string& name, glm::vec3 v);
+	void Set3Float(const std::string& name, float value, float value1, float value2);
 	void Set4Float(const std::string& name, float value, float value1, float value2, float value3);
 	void SetBool(const std::string& name, bool value);
+	void SetMaterial(Material material);
 
 };
 

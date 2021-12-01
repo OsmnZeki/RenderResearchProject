@@ -14,9 +14,16 @@ std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 			vertices[i * stride + 2]
 		);
 
+		ret[i].normal = glm::vec3(
+			vertices[i*stride +3],
+			vertices[i*stride +4],
+			vertices[i*stride +5]
+
+		);
+
 		ret[i].texCoord = glm::vec2(
-			vertices[i * stride + 3],
-			vertices[i * stride + 4]
+			vertices[i * stride + 6],
+			vertices[i * stride + 7]
 		);
 	}
 
@@ -73,9 +80,12 @@ void Mesh::Setup()
 	//vertex.position
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, pos));
-	//vertex.textcoord
+	//vertex.normal
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	//vertex.textcoord
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 
 	glBindVertexArray(0);
 }
