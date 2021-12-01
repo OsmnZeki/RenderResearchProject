@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 
-std::vector<Vertex> Vertex::genList(float* vertices, int numOfVertices) {
+std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 	std::vector<Vertex> ret(numOfVertices);
 
 	int stride = sizeof(Vertex) / sizeof(float);

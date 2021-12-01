@@ -73,7 +73,7 @@ public:
 		Texture tex1(tex1Path.c_str(), "texture1");
 		tex1.Load();
 
-		meshes.push_back(Mesh(Vertex::genList(vertices, numbOfVertices), indices, { tex0,tex1 }));
+		meshes.push_back(Mesh(Vertex::SetVertices(vertices, numbOfVertices), indices, { tex0,tex1 }));
 	}
 
 	void Render(Shader shader) {

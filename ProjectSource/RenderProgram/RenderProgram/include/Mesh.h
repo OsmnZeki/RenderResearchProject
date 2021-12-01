@@ -14,7 +14,7 @@ struct Vertex {
 	glm::vec3 pos;
 	glm::vec2 texCoord;
 
-	static std::vector<struct Vertex> genList(float* vertices, int numOfVertices);
+	static std::vector<struct Vertex> SetVertices(float* vertices, int numOfVertices);
 };
 typedef struct Vertex Vertex;
 
