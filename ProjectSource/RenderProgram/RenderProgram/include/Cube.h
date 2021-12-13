@@ -12,6 +12,8 @@ public:
 
 	Material material;
 
+	Cube cube();
+
 	Cube(Material material, glm::vec3 pos, glm::vec3 size)
 		:material(material), pos(pos), size(size) {}
 
@@ -68,15 +70,15 @@ public:
 			indices[i] = i;
 		}
 
-		std::string tex0Path = FilePath::ImagePath + "image1.png";
-		std::string tex1Path = FilePath::ImagePath + "image2.jpg";
-
-		Texture tex0(tex0Path.c_str(), "texture0");
+		std::string tex0Path = FilePath::ImagePath + "image3.jpg";
+		Texture tex0(tex0Path.c_str(), "material.diffuse");
 		tex0.Load();
-		Texture tex1(tex1Path.c_str(), "texture1");
+
+		std::string tex1Path = FilePath::ImagePath + "image3_specular.png";
+		Texture tex1(tex1Path.c_str(), "material.specular");
 		tex1.Load();
 
-		meshes.push_back(Mesh(Vertex::SetVertices(vertices, numbOfVertices), indices, { tex0,tex1 }));
+		meshes.push_back(Mesh(Vertex::SetVertices(vertices, numbOfVertices), indices, { tex0, tex1 }));
 	}
 
 	void Render(Shader shader) {

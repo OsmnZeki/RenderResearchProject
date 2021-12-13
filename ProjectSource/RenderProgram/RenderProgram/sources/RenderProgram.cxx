@@ -26,6 +26,8 @@
 #include "Screen.h"
 #include "Cube.h"
 #include "Lamp.h"
+
+#include "Light.h"
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
 
 void ProcessInput(double dt);
@@ -82,10 +84,18 @@ void CustomRender::Render() {
 	Shader shader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "object.fs");
 	Shader lampShader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "lamp.fs");
 
-	Cube cube(Material::gold,glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.75f));
+	Cube cube(Material::mix(Material::gold, Material::emerald), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.75f));
 	cube.Initialize();
-	
-	Lamp lamp(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(-3.0f, -0.0f, -1.0f), glm::vec3(2.0f));
+
+	//DirectionalLight dirLight = {glm::vec3(-0.2f, -1.0f, -0.3f), glm::vec3(0.1f), glm::vec3(0.4f), glm::vec3(0.75f)};
+	SpotLight spotLight = {
+		cameras[activeCamera].cameraPos, cameras[activeCamera].cameraFront,
+		glm::cos(glm::radians(5.0f)), glm::cos(glm::radians(10.0f)),
+		1.0f, 0.07f, 0.032f,
+		glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(1.0f)
+	};
+
+	Lamp lamp(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 1.0f, 0.07f, 0.032f, glm::vec3(-1.0f, -0.5f, -0.5f), glm::vec3(0.25f));
 	lamp.Initialize();
 
 	// render loop
@@ -103,11 +113,14 @@ void CustomRender::Render() {
 		screen.Update();
 
 		shader.Activate();
-		shader.Set3Float("light.position", lamp.pos);
 		shader.Set3Float("viewPos", cameras[activeCamera].cameraPos);
-		shader.Set3Float("light.ambient", lamp.ambient);
-		shader.Set3Float("light.diffuse", lamp.diffuse);
-		shader.Set3Float("light.specular", lamp.specular);
+		//lamp.pointLight.Render(shader);
+		//dirLight.direction =glm::vec3(glm::rotate(glm::mat4(1.0f), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::vec4(dirLight.direction, 1.0f));
+		//dirLight.Render(shader);
+
+		spotLight.position = cameras[activeCamera].cameraPos;
+		spotLight.direction = cameras[activeCamera].cameraFront;
+		spotLight.Render(shader);
 
 		//create transformations for screen
 		glm::mat4 view = glm::mat4(1.0f);
@@ -183,7 +196,7 @@ void ProcessInput(double dt)
 	double dy = MouseInput::GetDy();
 	if (dx != 0 || dy != 0)
 	{
-		
+
 		cameras[activeCamera].UpdataCameraDirection(dx, dy);
 	}
 

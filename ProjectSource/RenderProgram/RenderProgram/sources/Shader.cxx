@@ -119,8 +119,8 @@ void Shader::SetBool(const std::string& name, bool value)
 void Shader::SetMaterial(Material material)
 {
 	Set3Float("material.ambient", material.ambient);
-	Set3Float("material.diffuse", material.diffuse);
-	Set3Float("material.specular", material.specular);
+	//Set3Float("material.diffuse", material.diffuse);
+	//Set3Float("material.specular", material.specular);
 	SetFloat("material.shininess", material.shininess);
 }
 //Texture Functions
