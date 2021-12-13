@@ -12,7 +12,7 @@ public:
 	//light strenth values
 	PointLight pointLight;
 
-	Lamp();
+	Lamp() {}
 
 	Lamp(glm::vec3 lightColor,
 		glm::vec3 ambient,

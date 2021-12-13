@@ -1,8 +1,8 @@
 #include "Light.h"
 
-void PointLight::Render(Shader shader)
+void PointLight::Render(Shader shader, int idx)
 {
-	std::string name = "pointLight";
+	std::string name = "pointLight[" + std::to_string(idx) + "]";
 
 	shader.Set3Float(name + ".position", position);
 	shader.SetFloat(name + ".k0", k0);
@@ -23,9 +23,9 @@ void DirectionalLight::Render(Shader shader)
 	shader.Set3Float(name + ".specular", specular);
 }
 
-void SpotLight::Render(Shader shader)
+void SpotLight::Render(Shader shader, int idx)
 {
-	std::string name = "spotLight";
+	std::string name = "spotLight[" + std::to_string(idx) + "]";
 
 	shader.Set3Float(name + ".position", position);
 	shader.Set3Float(name + ".direction", direction);

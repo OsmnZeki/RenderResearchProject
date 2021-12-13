@@ -12,7 +12,7 @@ public:
 
 	Material material;
 
-	Cube cube();
+	Cube() {}
 
 	Cube(Material material, glm::vec3 pos, glm::vec3 size)
 		:material(material), pos(pos), size(size) {}
