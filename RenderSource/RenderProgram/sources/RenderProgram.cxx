@@ -24,6 +24,7 @@
 
 #include "IO/Camera.h"
 #include "Screen.h"
+#include "Graphics/Objects/Model.h"
 #include "Graphics/Model/Cube.h"
 #include "Graphics/Model/Lamp.h"
 
@@ -87,24 +88,14 @@ void CustomRender::Render() {
 	Shader shader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "object.fs");
 	Shader lampShader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "lamp.fs");
 
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0, 0.0, 0.0),
-		glm::vec3(2.0f, 5.0f, -15.0f),
-		glm::vec3(-1.4f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f, 3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f, 2.0f, -2.5f),
-		glm::vec3(1.5f, 0.2f, -1.5f),
-		glm::vec3(-1.3f, 1.0f, -1.5f),
-	};
+	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
+	trolModel.LoadModel(FilePath::ModelPath + "Trol/scene.gltf");
 
-	Cube cubes[10];
-	for (int i = 0; i < 10; i++) {
-		cubes[i] = Cube(Material::gold,cubePositions[i], glm::vec3(1.0f));
-		cubes[i].Initialize();
-	}
+	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
+		glm::vec4(0.1f,0.1f,0.1f,1.0f), 
+		glm::vec4(0.4f,0.4f,0.4f,1.0f), 
+		glm::vec4(0.75f,0.75f,0.75f,1.0f) };
+
 
 	glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.7f, 0.2f, 2.0f),
@@ -117,20 +108,18 @@ void CustomRender::Render() {
 	for (int i = 0; i < 4; i++) {
 
 		lamps[i] = Lamp(glm::vec3(1.0f),
-			glm::vec3(0.05f), glm::vec3(0.8f), glm::vec3(1.0f),
+			glm::vec4(0.05f, 0.05f, 0.05f,1.0f), glm::vec4(0.8f, 0.8f, 0.8f,1.0f), glm::vec4(1.0f),
 			1.0f, 0.07f, 0.032f,
 			pointLightPositions[i], glm::vec3(0.25f));
 
 		lamps[i].Initialize();
 	}
 
-	DirectionalLight dirLight = {glm::vec3(-0.2f, -1.0f, -0.3f), glm::vec3(0.1f), glm::vec3(0.4f), glm::vec3(0.75f)};
-
 	SpotLight spotLight = {
 		cameras[activeCamera].cameraPos, cameras[activeCamera].cameraFront,
 		glm::cos(glm::radians(5.0f)), glm::cos(glm::radians(10.0f)),
 		1.0f, 0.07f, 0.032f,
-		glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(1.0f)
+		glm::vec4(0.0f,0.0f,0.0f,1.0f), glm::vec4(1.0f), glm::vec4(1.0f)
 	};
 
 	// render loop
@@ -163,7 +152,6 @@ void CustomRender::Render() {
 			shader.SetInt("numbSpotLights", 0);
 		}
 
-		
 
 		for (int i = 0; i < 4; i++) 
 		{
@@ -180,9 +168,9 @@ void CustomRender::Render() {
 
 		shader.SetMat4("view", view);
 		shader.SetMat4("projection", projection);
-		for (int i = 0; i < 10; i++) {
-			cubes[i].Render(shader);
-		}
+
+		trolModel.Render(shader);
+	
 
 		lampShader.Activate();
 		lampShader.SetMat4("view", view);
@@ -194,9 +182,7 @@ void CustomRender::Render() {
 		screen.NewFrame();
 	}
 
-	for (int i = 0; i < 10; i++) {
-		cubes[i].CleanUp();
-	}
+	trolModel.CleanUp();
 
 	for (int i = 0; i < 4; i++) {
 		lamps[i].CleanUp();

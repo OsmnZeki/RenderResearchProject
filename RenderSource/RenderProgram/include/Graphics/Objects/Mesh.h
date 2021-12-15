@@ -27,14 +27,20 @@ public:
 
 	std::vector<Texture> textures;
 
+	aiColor4D diffuse;
+	aiColor4D specular;
+
 	Mesh();
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, std::vector<Texture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, std::vector<Texture> textures = { });
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, aiColor4D diffuse, aiColor4D specular);
 
 	void Render(Shader shader);
 	void CleanUp();
 
 private:
 	unsigned int VBO, EBO;
+
+	bool noTex;
 
 	void Setup();
 };

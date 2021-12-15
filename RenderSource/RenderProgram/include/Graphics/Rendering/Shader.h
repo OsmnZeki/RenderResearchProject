@@ -8,6 +8,8 @@
 #include "sstream"
 #include "iostream"
 
+#include "ASSIMP/scene.h"
+
 #include "GLM/glm.hpp"
 #include "GLM/gtc/type_ptr.hpp"
 
@@ -35,6 +37,8 @@ public:
 	void Set3Float(const std::string& name, glm::vec3 v);
 	void Set3Float(const std::string& name, float value, float value1, float value2);
 	void Set4Float(const std::string& name, float value, float value1, float value2, float value3);
+	void Set4Float(const std::string& name, aiColor4D color);
+	void Set4Float(const std::string& name, glm::vec4 v);
 	void SetBool(const std::string& name, bool value);
 	void SetMaterial(Material material);
 

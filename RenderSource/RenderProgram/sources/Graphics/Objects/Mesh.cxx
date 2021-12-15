@@ -15,9 +15,9 @@ std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 		);
 
 		ret[i].normal = glm::vec3(
-			vertices[i*stride +3],
-			vertices[i*stride +4],
-			vertices[i*stride +5]
+			vertices[i * stride + 3],
+			vertices[i * stride + 4],
+			vertices[i * stride + 5]
 
 		);
 
@@ -33,22 +33,55 @@ std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 Mesh::Mesh() {}
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-	: vertices(vertices), indices(indices), textures(textures)
+	: vertices(vertices), indices(indices), textures(textures), noTex(false)
+{
+	Setup();
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, aiColor4D diffuse, aiColor4D specular)
+	: vertices(vertices), indices(indices), diffuse(diffuse), specular(specular), noTex(true)
 {
 	Setup();
 }
 
 void Mesh::Render(Shader shader)
 {
-	//textures
-	for (unsigned int i = 0; i < textures.size(); i++)
-	{
-		shader.SetInt(textures[i].name, textures[i].id);
-		glActiveTexture(GL_TEXTURE0 + i);
-		textures[i].Bind();
+	if (noTex) {
+		// materials
+		shader.Set4Float("material.diffuse", diffuse);
+		shader.Set4Float("material.specular", specular);
+		shader.SetInt("noTex", 1);
 	}
+	else {
+		// textures
+		unsigned int diffuseIdx = 0;
+		unsigned int specularIdx = 0;
+
+		for (unsigned int i = 0; i < textures.size(); i++) {
+			// activate texture
+			glActiveTexture(GL_TEXTURE0 + i);
+
+			// retrieve texture info
+			std::string name;
+			switch (textures[i].type)
+			{
+			case aiTextureType_DIFFUSE:
+				name = "diffuse" + std::to_string(diffuseIdx++);
+				break;
+			case aiTextureType_SPECULAR:
+				name = "specular" + std::to_string(specularIdx++);
+				break;
+			}
+
+			// set the shader value
+			shader.SetInt(name, i);
+			// bind texture
+			textures[i].Bind();
+		}
+	}
+
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT,0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	glActiveTexture(GL_TEXTURE0);
 }

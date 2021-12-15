@@ -12,4 +12,4 @@ ADD_LIBRARY(RenderProgram STATIC ${RDRP_SOURCE_FILES} ${RDRP_HEADER_FILES} ${STB
 include_directories("${CMAKE_SOURCE_DIR}/CommonLibraries/include")
 include_directories(include)
 
-TARGET_LINK_LIBRARIES(RenderProgram ${GLFW} ${ASSIMP} ${GLM_LIBRARIES})
+TARGET_LINK_LIBRARIES(RenderProgram ${GLFW} ${ASSIMP} ${ASSIMPDLL} ${GLM_LIBRARIES})

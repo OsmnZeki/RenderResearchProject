@@ -9,6 +9,7 @@ public:
 	static std::string CurrentAssetsPath;
 	static std::string ShadersPath;
 	static std::string ImagePath;
+	static std::string ModelPath;
 };
 
 class FilePathOsman {

@@ -8,9 +8,9 @@ void PointLight::Render(Shader shader, int idx)
 	shader.SetFloat(name + ".k0", k0);
 	shader.SetFloat(name + ".k1", k1);
 	shader.SetFloat(name + ".k2", k2);
-	shader.Set3Float(name +  ".ambient", ambient);
-	shader.Set3Float(name + ".diffuse", diffuse);
-	shader.Set3Float(name + ".specular", specular);
+	shader.Set4Float(name +  ".ambient", ambient);
+	shader.Set4Float(name + ".diffuse", diffuse);
+	shader.Set4Float(name + ".specular", specular);
 }
 
 void DirectionalLight::Render(Shader shader)
@@ -18,9 +18,9 @@ void DirectionalLight::Render(Shader shader)
 	std::string name = "directionalLight";
 
 	shader.Set3Float(name + ".direction", direction);
-	shader.Set3Float(name + ".ambient", ambient);
-	shader.Set3Float(name + ".diffuse", diffuse);
-	shader.Set3Float(name + ".specular", specular);
+	shader.Set4Float(name + ".ambient", ambient);
+	shader.Set4Float(name + ".diffuse", diffuse);
+	shader.Set4Float(name + ".specular", specular);
 }
 
 void SpotLight::Render(Shader shader, int idx)
@@ -36,7 +36,7 @@ void SpotLight::Render(Shader shader, int idx)
 	shader.SetFloat(name + ".cutOff", cutOff);
 	shader.SetFloat(name + ".outerCutOff", outerCutOff);
 
-	shader.Set3Float(name + ".ambient", ambient);
-	shader.Set3Float(name + ".diffuse", diffuse);
-	shader.Set3Float(name + ".specular", specular);
+	shader.Set4Float(name + ".ambient", ambient);
+	shader.Set4Float(name + ".diffuse", diffuse);
+	shader.Set4Float(name + ".specular", specular);
 }

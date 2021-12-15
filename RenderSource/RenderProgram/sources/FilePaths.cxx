@@ -28,5 +28,6 @@ std::string FilePath::CurrentAssetsPath = FilePathOsman::AssetsPath;
 
 std::string FilePath::ShadersPath = FilePath::CurrentAssetsPath + "Shaders/";
 std::string FilePath::ImagePath = FilePath::CurrentAssetsPath + "Images/";
+std::string FilePath::ModelPath = FilePath::CurrentAssetsPath + "Models/";
 
 
