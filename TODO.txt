@@ -5,9 +5,6 @@ Karşılaşılan Hatalar ve Kurulum Notları
 
 
 
-asdasd
-
-
 --------------------------
 Genel Notlar
 *opengl dll çıkartılacak
