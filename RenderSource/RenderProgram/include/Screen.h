@@ -4,6 +4,8 @@
 #include "GLAD/glad.h"
 #include "GLFW/glfw3.h"
 
+#include "IO/KeyboardInput.h"
+#include "IO/MouseInput.h"
 
 class Screen {
 public:
@@ -13,9 +15,11 @@ public:
 	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 	Screen();
 
+	void ConfigureGLFW();
 	bool Initialize();
-
+	bool CheckGladInitialization();
 	void SetParameters();
+	void Terminate();
 
 	//main loop
 	void Update();
@@ -24,6 +28,10 @@ public:
 	// window closing accessor and modifier
 	bool ShouldClose();
 	void SetShouldClose(bool shouldClose);
+
+	//input
+	void ProcessInput();
+
 
 private:
 	GLFWwindow* window;

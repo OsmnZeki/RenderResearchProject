@@ -6,6 +6,6 @@
 int main() {
 
 	CustomRender customRender;
-	customRender.Render();
+	customRender.TestRender();
 	
 }

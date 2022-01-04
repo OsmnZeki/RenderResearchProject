@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.10)
 project (RenderProgram)
 
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 SET(DLL_INSTALL_FOLDER "D:/Choose ... path" CACHE PATH "Library install folder")
 

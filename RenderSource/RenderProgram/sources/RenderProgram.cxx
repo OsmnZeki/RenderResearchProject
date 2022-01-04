@@ -32,13 +32,13 @@
 
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
 
-void ProcessInput(double dt);
+void ProcessInput(double dt, Screen screen);
 
 // settings
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 
-Screen screen;
+
 
 float mixVal = 0.5f;
 
@@ -59,7 +59,7 @@ bool spotLightOn = true;
 
 void CustomRender::Render() {
 
-
+	Screen screen;
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -90,6 +90,8 @@ void CustomRender::Render() {
 
 	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
 	trolModel.LoadModel(FilePath::ModelPath + "Trol/scene.gltf");
+		
+
 
 	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
 		glm::vec4(0.1f,0.1f,0.1f,1.0f), 
@@ -130,7 +132,7 @@ void CustomRender::Render() {
 		lastFrame = currentTime;
 
 		// input
-		ProcessInput(deltaTime);
+		ProcessInput(deltaTime,screen);
 
 		// render
 		// ------
@@ -191,7 +193,47 @@ void CustomRender::Render() {
 	glfwTerminate();
 }
 
-void ProcessInput(double dt)
+void CustomRender::TestRender()
+{
+	Screen screen;
+
+	screen.ConfigureGLFW();
+
+	if (!screen.Initialize())
+	{
+		return;
+	}
+
+	// glad: load all OpenGL function pointers
+	if (screen.CheckGladInitialization())
+	{
+		return;
+	}
+
+	screen.SetParameters();
+
+	while (!screen.ShouldClose())
+	{
+		double currentTime = glfwGetTime();
+		deltaTime = currentTime - lastFrame;
+		lastFrame = currentTime;
+		
+		// input
+		screen.ProcessInput();
+
+		// render
+		// ------
+		screen.Update();
+
+
+		screen.NewFrame();
+	}
+
+	screen.Terminate();
+
+}
+
+void ProcessInput(double dt, Screen screen)
 {
 	if (KeyboardInput::Key(GLFW_KEY_ESCAPE)) {
 		screen.SetShouldClose(true);
