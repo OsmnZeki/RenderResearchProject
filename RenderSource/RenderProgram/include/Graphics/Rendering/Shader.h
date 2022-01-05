@@ -15,13 +15,14 @@
 
 #include "Graphics/Rendering/Material.h"
 
+
 class Shader {
 
 public:
 	unsigned int id;
 
 	Shader();
-	Shader(std::string VertexShaderPath, std::string FragmentShaderPath);
+	Shader(const char* vertexShaderPath, const char* fragShaderPath);
 
 	void Generate(const char* vertexShaderPath, const char* fragShaderPath);
 	void Activate();

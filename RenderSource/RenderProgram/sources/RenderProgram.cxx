@@ -85,11 +85,11 @@ void CustomRender::Render() {
 	screen.SetParameters();
 
 	//shaders compile
-	Shader shader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "object.fs");
-	Shader lampShader(FilePath::ShadersPath + "object.vs", FilePath::ShadersPath + "lamp.fs");
+	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
+	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
 
 	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
-	trolModel.LoadModel(FilePath::ModelPath + "Trol/scene.gltf");
+	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 		
 
 

@@ -5,9 +5,9 @@ Shader::Shader()
 {
 }
 
-Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
+Shader::Shader(const char* vertexShaderPath, const char* fragShaderPath) {
 
-	Generate(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+	Generate(vertexShaderPath, fragShaderPath);
 }
 
 void Shader::Generate(const char* vertexShaderPath, const char* fragShaderPath)
