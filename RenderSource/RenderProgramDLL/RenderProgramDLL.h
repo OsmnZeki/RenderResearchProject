@@ -6,13 +6,11 @@
 #include"RenderProgram.h"
 #include"Screen.h"
 #include "Graphics/Rendering/Shader.h"
+#include "Graphics/Objects/Model.h"
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
 
 #include"iostream"
-
-
-
 
 	//screen functions
 	_RENDER_PROGRAM_DLL_H_ Screen* CreateScreen();
@@ -24,6 +22,12 @@
 
 	//shader functions
 	_RENDER_PROGRAM_DLL_H_ Shader* NewShader(const char* vertexShaderPath, const char* fragShaderPath);
+
+	//model functions
+	_RENDER_PROGRAM_DLL_H_ Model* NewModel();
+	_RENDER_PROGRAM_DLL_H_ void LoadModel(Model* model, const char* modelPath);
+	_RENDER_PROGRAM_DLL_H_ void Render(Model* model, Shader* shader);
+	_RENDER_PROGRAM_DLL_H_ void CleanUp(Model* model);
 
 	//input functions
 	_RENDER_PROGRAM_DLL_H_ bool GetKeyDown(int keyCode);

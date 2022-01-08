@@ -92,7 +92,6 @@ void CustomRender::Render() {
 	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 		
 
-
 	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
 		glm::vec4(0.1f,0.1f,0.1f,1.0f), 
 		glm::vec4(0.4f,0.4f,0.4f,1.0f), 

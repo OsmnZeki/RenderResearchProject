@@ -59,6 +59,33 @@ Shader* NewShader(const char* vertexShaderPath, const char* fragShaderPath)
 	return shader;
 }
 
+
+#pragma endregion
+
+#pragma region ModelFunctions
+
+Model* NewModel()
+{
+	Model* model = new Model();
+	return model;
+}
+
+void LoadModel(Model* model, const char* modelPath)
+{
+	std::string path = modelPath;
+	model->LoadModel(path);
+}
+
+void Render(Model* model, Shader* shader)
+{
+	model->Render(*shader);
+}
+
+void CleanUp(Model* model)
+{
+	model->CleanUp();
+}
+
 #pragma endregion
 
 
