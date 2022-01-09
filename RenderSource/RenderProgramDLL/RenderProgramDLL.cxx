@@ -59,8 +59,52 @@ Shader* NewShader(const char* vertexShaderPath, const char* fragShaderPath)
 	return shader;
 }
 
+void ShaderSetInt(Shader* shader,const char* name, int value)
+{
+	glUniform1i(glGetUniformLocation(shader->id, name), value);
+}
+
+void ShaderSetFloat(Shader* shader,const char* name, float value)
+{
+	glUniform1f(glGetUniformLocation(shader->id, name), value);
+}
+
+void ShaderSet3Float(Shader* shader,const char* name, float value, float value1, float value2)
+{
+	glUniform3f(glGetUniformLocation(shader->id, name), value, value1, value2);
+}
+
+void ShaderSet4Float(Shader* shader, const char* name, float value, float value1, float value2, float value3)
+{
+	glUniform4f(glGetUniformLocation(shader->id, name), value, value1, value2, value3);
+}
+
+void ShaderSetBool(Shader* shader, const char* name, bool value)
+{
+	glUniform1i(glGetUniformLocation(shader->id, name), (int)value);
+}
+
+
 
 #pragma endregion
+
+#pragma region TextureFunctions
+
+Texture* NewTexture(const char* directory, const char* name, int type)
+{
+	Texture* texture = new Texture(directory, name,(aiTextureType)type);
+	return texture;
+}
+
+void TextureLoad(Texture* texture, bool flip)
+{
+	texture->Load(flip);
+}
+
+
+
+#pragma endregion
+
 
 #pragma region ModelFunctions
 
