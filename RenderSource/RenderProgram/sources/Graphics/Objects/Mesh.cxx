@@ -30,18 +30,33 @@ std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 	return ret;
 }
 
-Mesh::Mesh() {}
+Mesh::Mesh() {
+}
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 	: vertices(vertices), indices(indices), textures(textures), noTex(false)
 {
-	Setup();
+	Setup(MeshSetupConfiguration::PosNormalTexCoordSetup);
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, aiColor4D diffuse, aiColor4D specular)
-	: vertices(vertices), indices(indices), diffuse(diffuse), specular(specular), noTex(true)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, aiColor4D _diffuse, aiColor4D _specular)
+	: vertices(vertices), indices(indices), noTex(true)
 {
-	Setup();
+	diffuse.x = _diffuse.r;
+	diffuse.y = _diffuse.g;
+	diffuse.z = _diffuse.b;
+	diffuse.w = _diffuse.a;
+
+	specular.x = _specular.r;
+	specular.y = _specular.g;
+	specular.z = _specular.b;
+	specular.w = _specular.a;
+	Setup(MeshSetupConfiguration::PosNormalTexCoordSetup);
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm::vec4 diffuse, glm::vec4 specular)
+{
+	Setup(MeshSetupConfiguration::PosNormalTexCoordSetup);
 }
 
 void Mesh::Render(Shader shader)
@@ -93,7 +108,7 @@ void Mesh::CleanUp()
 	glDeleteBuffers(1, &EBO);
 }
 
-void Mesh::Setup()
+void Mesh::Setup(MeshSetupConfiguration setupConfig)
 {
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -109,16 +124,25 @@ void Mesh::Setup()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
+
 	//set vertex attribute pointers
-	//vertex.position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, pos));
-	//vertex.normal
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	//vertex.textcoord
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+	switch (setupConfig)
+	{
+	case MeshSetupConfiguration::PosNormalTexCoordSetup:
+		//vertex.textcoord
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+	case MeshSetupConfiguration::PosNormalSetup:
+		//vertex.normal
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	case MeshSetupConfiguration::PosSetup:
+		//vertex.position
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, pos));
+	default:
+		break;
+	}
 
 	glBindVertexArray(0);
 }

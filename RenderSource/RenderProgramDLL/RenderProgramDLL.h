@@ -32,11 +32,24 @@
 	_RENDER_PROGRAM_DLL_H_ Texture* NewTexture(const char* directory, const char* name, int type);
 	_RENDER_PROGRAM_DLL_H_ void TextureLoad(Texture* texture, bool flip);
 
+	//Mesh functions
+	_RENDER_PROGRAM_DLL_H_ Mesh* CreateMesh();
+	_RENDER_PROGRAM_DLL_H_ void MeshSetVerticesPos(Mesh* mesh, float* pos, int sizeOfVertices);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetIndices(Mesh* mesh, int* indices);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetVerticesNormal(Mesh* mesh, float* normal);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetVerticesTexCoord(Mesh* mesh, float* texCoord);
+	_RENDER_PROGRAM_DLL_H_ void AddTextureToMesh(Mesh* mesh, Texture* texture);
+	_RENDER_PROGRAM_DLL_H_ void MeshCleanUp(Mesh* mesh);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetup(Mesh* mesh,int setupConfig);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetDiffuse(Mesh* mesh, float* diffuse);
+	_RENDER_PROGRAM_DLL_H_ void MeshSetSpecular(Mesh* mesh, float* specular);
+
 	//model functions
 	_RENDER_PROGRAM_DLL_H_ Model* NewModel();
 	_RENDER_PROGRAM_DLL_H_ void LoadModel(Model* model, const char* modelPath);
-	_RENDER_PROGRAM_DLL_H_ void Render(Model* model, Shader* shader);
-	_RENDER_PROGRAM_DLL_H_ void CleanUp(Model* model);
+	_RENDER_PROGRAM_DLL_H_ void ModelRender(Model* model, Shader* shader);
+	_RENDER_PROGRAM_DLL_H_ void ModelCleanUp(Model* model);
+	_RENDER_PROGRAM_DLL_H_ void AddMeshToModel(Model* model, Mesh* mesh);
 
 	//input functions
 	_RENDER_PROGRAM_DLL_H_ bool GetKeyDown(int keyCode);
@@ -45,5 +58,8 @@
 	_RENDER_PROGRAM_DLL_H_ bool GetMouseKeyDown(int keyCode);
 	_RENDER_PROGRAM_DLL_H_ bool GetMouseKeyUp(int keyCode);
 	_RENDER_PROGRAM_DLL_H_ bool GetMouseKey(int keyCode);
+
+	//GL Functions
+
 
 #endif

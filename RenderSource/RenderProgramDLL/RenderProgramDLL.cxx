@@ -101,8 +101,97 @@ void TextureLoad(Texture* texture, bool flip)
 	texture->Load(flip);
 }
 
+#pragma region MeshFunctions
+Mesh* CreateMesh()
+{
+	Mesh* mesh = new Mesh();
+	mesh->noTex = true;
+	return mesh;
+}
 
+void MeshSetVerticesPos(Mesh* mesh, float* pos, int sizeOfVertices)
+{
+	mesh->verticesSize = sizeOfVertices;
+	std::vector<Vertex> ret(sizeOfVertices);
 
+	for (int i = 0; i < sizeOfVertices; i+=3)
+	{
+		ret[i].pos = glm::vec3(
+			pos[i  + 0],
+			pos[i  + 1],
+			pos[i  + 2]
+		);
+	}
+
+	mesh->vertices = ret;
+}
+
+void MeshSetIndices(Mesh* mesh, int* _indices)
+{
+	std::vector<unsigned int> indices(mesh->verticesSize);
+	for (unsigned int i = 0; i < mesh->verticesSize; i++) {
+		mesh->indices[i] = _indices[i];
+	}
+}
+
+void MeshSetVerticesNormal(Mesh* mesh, float* normal)
+{
+	for (int i = 0; i < mesh->verticesSize; i += 3)
+	{
+		mesh->vertices[i].normal= glm::vec3(
+			normal[i + 0],
+			normal[i + 1],
+			normal[i + 2]
+		);
+	}
+}
+
+void MeshSetVerticesTexCoord(Mesh* mesh, float* texCoord)
+{
+	for (int i = 0; i < mesh->verticesSize; i+=2)
+	{
+		mesh->vertices[i].texCoord = glm::vec2(
+			texCoord[i  + 0],
+			texCoord[i  + 1]
+		);
+	}
+}
+
+void AddTextureToMesh(Mesh* mesh, Texture* texture)
+{
+	if (mesh != NULL && texture != NULL) {
+		mesh->noTex = false;
+		mesh->textures.push_back(*texture);
+	}
+}
+
+void MeshCleanUp(Mesh* mesh)
+{
+	if (mesh != NULL) {
+		mesh->CleanUp();
+	}
+}
+
+void MeshSetup(Mesh* mesh, int setupConfig)
+{
+	if (mesh != NULL) {
+		mesh->Setup((MeshSetupConfiguration) setupConfig);
+	}
+}
+
+void MeshSetDiffuse(Mesh* mesh, float* diffuse)
+{
+	if (mesh != NULL) {
+		mesh->diffuse = glm::vec4(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
+	}
+}
+
+void MeshSetSpecular(Mesh* mesh, float* specular)
+{
+	if (mesh != NULL) {
+		mesh->specular = glm::vec4(specular[0], specular[1], specular[2], specular[3]);
+	}
+}
 #pragma endregion
 
 
@@ -120,14 +209,21 @@ void LoadModel(Model* model, const char* modelPath)
 	model->LoadModel(path);
 }
 
-void Render(Model* model, Shader* shader)
+void ModelRender(Model* model, Shader* shader)
 {
 	model->Render(*shader);
 }
 
-void CleanUp(Model* model)
+void ModelCleanUp(Model* model)
 {
 	model->CleanUp();
+}
+
+void AddMeshToModel(Model* model, Mesh* mesh)
+{
+	if (model != NULL && mesh != NULL) {
+		model->meshes.push_back(*mesh);
+	}
 }
 
 #pragma endregion

@@ -85,11 +85,11 @@ void CustomRender::Render() {
 	screen.SetParameters();
 
 	//shaders compile
-	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
-	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
+	Shader shader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
+	Shader lampShader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
 
 	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
-	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
+	trolModel.LoadModel("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 		
 
 	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
