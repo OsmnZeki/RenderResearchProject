@@ -4,18 +4,18 @@
 #include "IO/MouseInput.h"
 
 
-unsigned int Screen::SCR_WIDTH = 800;
-unsigned int Screen::SCR_HEIGHT = 600;
 
 void Screen::FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-	SCR_WIDTH = width;
-	SCR_HEIGHT = height;
 }
 
-Screen::Screen()
-	: window(nullptr) {}
+Screen::Screen(int _SCR_WIDTH, int _SCR_HEIGHT)
+	: window(nullptr) {
+	
+	SCR_WIDTH = _SCR_WIDTH;
+	SCR_HEIGHT = _SCR_HEIGHT;
+}
 
 
 
@@ -61,7 +61,7 @@ void Screen::SetParameters()
 {
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
-	glfwSetFramebufferSizeCallback(window, Screen::FramebufferSizeCallback);
+	glfwSetFramebufferSizeCallback(window, Screen::FramebufferSizeCallback); //büyültüp küçültüldüðünde renderin boyutunu ayarlar
 	glfwSetCursorPosCallback(window, MouseInput::CursorPosCallback);
 	glfwSetMouseButtonCallback(window, MouseInput::MouseButtonCallback);
 	glfwSetScrollCallback(window, MouseInput::MouseWheelCallback);

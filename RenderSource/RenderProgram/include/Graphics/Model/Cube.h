@@ -2,7 +2,6 @@
 #define CUBE_HPP
 
 #include "Graphics/Objects/Model.h"
-#include "FilePaths.h"
 #include "Graphics/Rendering/Material.h"
 
 class Cube : public Model {

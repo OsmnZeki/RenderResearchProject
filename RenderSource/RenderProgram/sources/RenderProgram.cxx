@@ -16,7 +16,6 @@
 #include "GLM/gtc/matrix_transform.hpp"
 
 #include "Graphics/Rendering/Shader.h"
-#include "FilePaths.h"
 #include "Graphics/Rendering/Texture.h"
 
 #include "IO/KeyboardInput.h"
@@ -35,14 +34,12 @@
 void ProcessInput(double dt, Screen screen);
 
 // settings
-unsigned int SCR_WIDTH = 800;
-unsigned int SCR_HEIGHT = 600;
+//unsigned int SCR_WIDTH = 800;
+//unsigned int SCR_HEIGHT = 600;
 
 
 
 float mixVal = 0.5f;
-
-glm::mat4 transform = glm::mat4(1.0f);
 
 Camera cameras[2] = {
 	Camera(glm::vec3(0.0f, 0.0f,3.0f)),
@@ -59,7 +56,7 @@ bool spotLightOn = true;
 
 void CustomRender::Render() {
 
-	Screen screen;
+	Screen screen= Screen(800,600);
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -85,11 +82,11 @@ void CustomRender::Render() {
 	screen.SetParameters();
 
 	//shaders compile
-	Shader shader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
-	Shader lampShader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
+	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
+	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
 
 	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
-	trolModel.LoadModel("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
+	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 		
 
 	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
@@ -160,12 +157,11 @@ void CustomRender::Render() {
 		}
 		shader.SetInt("numbPointLights", 4);
 
-
 		//create transformations for screen
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 		view = cameras[activeCamera].GetViewMatrix();
-		projection = glm::perspective(glm::radians(cameras[activeCamera].GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(cameras[activeCamera].GetZoom()), (float)screen.SCR_WIDTH / (float)screen.SCR_HEIGHT, 0.1f, 100.0f);
 
 		shader.SetMat4("view", view);
 		shader.SetMat4("projection", projection);
@@ -194,7 +190,7 @@ void CustomRender::Render() {
 
 void CustomRender::TestRender()
 {
-	Screen screen;
+	Screen screen = Screen(800, 600);
 
 	screen.ConfigureGLFW();
 
@@ -253,7 +249,6 @@ void ProcessInput(double dt, Screen screen)
 		cameras[activeCamera].UpdateCameraPos(CameraDirection::UP, dt);
 	}
 	if (KeyboardInput::Key(GLFW_KEY_LEFT_SHIFT)) {
-
 		cameras[activeCamera].UpdateCameraPos(CameraDirection::DOWN, dt);
 	}
 	if (KeyboardInput::Key(GLFW_KEY_D)) {
@@ -278,7 +273,7 @@ void ProcessInput(double dt, Screen screen)
 	if (dx != 0 || dy != 0)
 	{
 
-		cameras[activeCamera].UpdataCameraDirection(dx, dy);
+		cameras[activeCamera].UpdateCameraDirection(dx, dy);
 	}
 
 	double scrollDy = MouseInput::GetScrollDy();

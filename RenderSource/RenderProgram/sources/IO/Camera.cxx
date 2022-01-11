@@ -13,7 +13,7 @@ Camera::Camera(glm::vec3 position)
 	UpdateCameraVectors();
 }
 
-void Camera::UpdataCameraDirection(double dx, double dy)
+void Camera::UpdateCameraDirection(double dx, double dy)
 {
 	yaw += dx;
 	pitch += dy;
@@ -69,6 +69,7 @@ void Camera::UpdateCameraZoom(double dy)
 	}
 }
 
+
 float Camera::GetZoom()
 {
 	return zoom;
@@ -85,6 +86,7 @@ void Camera::UpdateCameraVectors()
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	
 	cameraFront = glm::normalize(direction);
 
 	cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));

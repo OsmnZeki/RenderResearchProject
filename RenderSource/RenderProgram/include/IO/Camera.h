@@ -31,7 +31,7 @@ public:
 
 	Camera(glm::vec3 position);
 
-	void UpdataCameraDirection(double dx, double dy);
+	void UpdateCameraDirection(double dx, double dy);
 	void UpdateCameraPos(CameraDirection dir, double dt);
 	void UpdateCameraZoom(double dy);
 

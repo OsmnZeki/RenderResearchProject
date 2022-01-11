@@ -9,11 +9,11 @@
 
 class Screen {
 public:
-	static unsigned int SCR_WIDTH;
-	static unsigned int SCR_HEIGHT;
+	unsigned int SCR_WIDTH;
+	unsigned int SCR_HEIGHT;
 
 	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
-	Screen();
+	Screen(int _SCR_WIDTH, int _SCR_HEIGHT);
 
 	void ConfigureGLFW();
 	bool Initialize();

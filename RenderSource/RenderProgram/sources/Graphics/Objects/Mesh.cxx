@@ -54,8 +54,10 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int>indices, aiCol
 	Setup(MeshSetupConfiguration::PosNormalTexCoordSetup);
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm::vec4 diffuse, glm::vec4 specular)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm::vec4 _diffuse, glm::vec4 _specular)
 {
+	diffuse = _diffuse;
+	specular = _specular;
 	Setup(MeshSetupConfiguration::PosNormalTexCoordSetup);
 }
 
