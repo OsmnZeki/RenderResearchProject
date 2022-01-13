@@ -188,45 +188,6 @@ void CustomRender::Render() {
 	glfwTerminate();
 }
 
-void CustomRender::TestRender()
-{
-	Screen screen = Screen(800, 600);
-
-	screen.ConfigureGLFW();
-
-	if (!screen.Initialize())
-	{
-		return;
-	}
-
-	// glad: load all OpenGL function pointers
-	if (screen.CheckGladInitialization())
-	{
-		return;
-	}
-
-	screen.SetParameters();
-
-	while (!screen.ShouldClose())
-	{
-		double currentTime = glfwGetTime();
-		deltaTime = currentTime - lastFrame;
-		lastFrame = currentTime;
-		
-		// input
-		screen.ProcessInput();
-
-		// render
-		// ------
-		screen.Update();
-
-
-		screen.NewFrame();
-	}
-
-	screen.Terminate();
-
-}
 
 void ProcessInput(double dt, Screen screen)
 {
