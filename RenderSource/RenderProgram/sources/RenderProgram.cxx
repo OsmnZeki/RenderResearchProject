@@ -23,11 +23,12 @@
 
 #include "IO/Camera.h"
 #include "Screen.h"
-#include "Graphics/Objects/Model.h"
+#include "Graphics/Objects/ModelLoading.h"
 #include "Graphics/Model/Cube.h"
 #include "Graphics/Model/Lamp.h"
 
 #include "Graphics/Rendering/Light.h"
+#include "MeshRenderer.h"
 
 //#include <experimental/filesystem> current path i bulmak istiyosan aç
 
@@ -85,9 +86,20 @@ void CustomRender::Render() {
 	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
 	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
 
-	Model trolModel(glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f));
+	LitMaterial objectMaterial;
+	LitMaterial lampMaterial;
+
+	objectMaterial.shader = shader;
+	lampMaterial.shader = lampShader;
+
+	ModelLoading trolModel;
 	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
-		
+	Transform trolTransform = { glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f) };
+	MeshRenderer trolMeshRenderer;
+	trolMeshRenderer.material = trolModel.materials[0];
+	trolMeshRenderer.material.shader = shader;
+	trolMeshRenderer.mesh = trolModel.meshes[0];
+	trolMeshRenderer.Setup();
 
 	DirectionalLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f), 
 		glm::vec4(0.1f,0.1f,0.1f,1.0f), 
@@ -95,23 +107,28 @@ void CustomRender::Render() {
 		glm::vec4(0.75f,0.75f,0.75f,1.0f) };
 
 
-	glm::vec3 pointLightPositions[] = {
-		glm::vec3(0.7f, 0.2f, 2.0f),
-		glm::vec3(2.3f, -3.3f, -4.0f),
-		glm::vec3(-4.0f, 2.0f, -12.0f),
-		glm::vec3(0.0f, 0.0f, -3.0f),
+	Transform lambTransforms[] = {
+		{glm::vec3(0.7f, 0.2f, 2.0f), glm::vec3(.25f)},
+		{glm::vec3(2.3f, -3.3f, -4.0f), glm::vec3(.25f)},
+		{glm::vec3(-4.0f, 2.0f, -12.0f), glm::vec3(.25f)},
+		{glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(.25f)}
 	};
+	MeshRenderer lambMeshRenderers[4];
 
 	Lamp lamps[4];
 	for (int i = 0; i < 4; i++) {
 
-		lamps[i] = Lamp(glm::vec3(1.0f),
+		lamps[i] = Lamp(glm::vec3(1.0f),//set material
 			glm::vec4(0.05f, 0.05f, 0.05f,1.0f), glm::vec4(0.8f, 0.8f, 0.8f,1.0f), glm::vec4(1.0f),
 			1.0f, 0.07f, 0.032f,
-			pointLightPositions[i], glm::vec3(0.25f));
+			lambTransforms[i].position);
 
 		lamps[i].Initialize();
+		lambMeshRenderers[i].mesh = lamps[i].meshes[0];
+		lambMeshRenderers[i].material.shader = lampShader;
+		lambMeshRenderers[i].Setup();
 	}
+
 
 	SpotLight spotLight = {
 		cameras[activeCamera].cameraPos, cameras[activeCamera].cameraFront,
@@ -166,23 +183,23 @@ void CustomRender::Render() {
 		shader.SetMat4("view", view);
 		shader.SetMat4("projection", projection);
 
-		trolModel.Render(shader);
+		trolMeshRenderer.Render(trolTransform);
 	
 
 		lampShader.Activate();
 		lampShader.SetMat4("view", view);
 		lampShader.SetMat4("projection", projection);
 		for (int i = 0; i < 4; i++) {
-			lamps[i].Render(lampShader);
+			lambMeshRenderers[i].LightRender(lambTransforms[i],lamps[i].lightColor);
 		}
 
 		screen.NewFrame();
 	}
 
-	trolModel.CleanUp();
+	trolMeshRenderer.CleanUp();
 
 	for (int i = 0; i < 4; i++) {
-		lamps[i].CleanUp();
+		lambMeshRenderers[i].CleanUp();
 	}
 
 	glfwTerminate();

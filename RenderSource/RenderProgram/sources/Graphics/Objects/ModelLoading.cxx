@@ -1,34 +1,12 @@
-#include "Graphics/Objects/Model.h"
+#include "Graphics/Objects/ModelLoading.h"
 
 
-Model::Model(glm::vec3 pos, glm::vec3 size, bool noTex)
-	:pos(pos), size(size), noTex(noTex) {}
+ModelLoading::ModelLoading(bool noTex)
+	:noTex(noTex) {}
 
-void Model::Initialize() {}
+void ModelLoading::Initialize() {}
 
-void Model::Render(Shader shader)
-{
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, pos);
-	model = glm::scale(model, size);
-	shader.SetMat4("model", model);
-
-	shader.SetFloat("material.shininess", 0.5f);
-
-	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].Render(shader);
-	}
-}
-
-void Model::CleanUp()
-{
-	for (int i = 0; i < meshes.size(); i++)
-	{
-		meshes[i].CleanUp();
-	}
-}
-
-void Model::LoadModel(std::string path) {
+void ModelLoading::LoadModel(std::string path) {
 	Assimp::Importer import;
 	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -41,11 +19,12 @@ void Model::LoadModel(std::string path) {
 	ProcessNode(scene->mRootNode, scene);
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene) {
+void ModelLoading::ProcessNode(aiNode* node, const aiScene* scene) {
 	//process all meshes
 	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(ProcessMesh(mesh, scene));
+		materials.push_back(LoadMaterials(mesh, scene));
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -53,10 +32,9 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene) {
 	}
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
+Mesh ModelLoading::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 
 	// vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -98,6 +76,14 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 		}
 	}
 
+	return Mesh(vertices, indices);
+}
+
+Material ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
+{
+	std::vector<Texture> textures;
+	LitMaterial returnMaterial;
+
 	// process materials
 	if (mesh->mMaterialIndex >= 0) {
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -111,7 +97,13 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 			aiColor4D spec(1.0f);
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &spec);
 
-			return Mesh(vertices, indices, diff, spec);
+			glm::vec3 diffuse = { diff.r,diff.g,diff.b };
+			returnMaterial.diffuse = diffuse;
+
+			glm::vec3 specular = { spec.r,spec.g,spec.b };
+			returnMaterial.specular = specular;
+
+			return returnMaterial;
 		}
 
 		// diffuse maps
@@ -121,12 +113,15 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 		// specular maps
 		std::vector<Texture> specularMaps = LoadTextures(material, aiTextureType_SPECULAR);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	}
 
-	return Mesh(vertices, indices, textures);
+		returnMaterial.textures = textures;
+		return returnMaterial;
+	}
 }
 
-std::vector<Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType type) {
+
+
+std::vector<Texture> ModelLoading::LoadTextures(aiMaterial* mat, aiTextureType type) {
 	std::vector<Texture> textures;
 
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {

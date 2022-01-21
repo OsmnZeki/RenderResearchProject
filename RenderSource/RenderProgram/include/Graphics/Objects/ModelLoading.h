@@ -12,22 +12,19 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <vector>
 #include "Graphics/Objects/Mesh.h"
+#include "Graphics/Rendering/Material.h"
 
 
-class Model {
+class ModelLoading {
 public:
 
-	glm::vec3 pos;
-	glm::vec3 size;
 	std::vector<Mesh> meshes;
+	std::vector<Material> materials;
 
-	Model(glm::vec3 pos = glm::vec3(0.0f), glm::vec3 size = glm::vec3(1.0f), bool noTex = false);
+	ModelLoading(bool noTex = false);
 
 	void Initialize();
 	void LoadModel(std::string path);
-
-	void Render(Shader shader);
-	void CleanUp();
 
 protected:
 	bool noTex;
@@ -38,6 +35,7 @@ protected:
 
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	Material LoadMaterials(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> LoadTextures(aiMaterial* mat, aiTextureType type);
 
 };

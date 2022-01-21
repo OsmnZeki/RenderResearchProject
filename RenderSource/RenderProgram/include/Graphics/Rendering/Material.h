@@ -3,48 +3,69 @@
 
 #include <glm/glm.hpp>
 
+#include <vector>
+#include "Graphics/Rendering/Texture.h"
+#include "Graphics/Rendering/Shader.h"
+
 /*
     material structure to contain lighting values for different materials
 */
 
-struct Material {
+
+class Material {
+public:
+
+    Shader shader;
+    virtual void ConfigurationShader() { }
+};
+
+class LitMaterial : public Material {
+public:
+
+    LitMaterial();
+    LitMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess);
+    
+    void ConfigurationShader() override;
+
     // lighting values
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
     float shininess;
 
+    std::vector<Texture> textures;
+    
     /*
         static instances of common materials
     */
 
-    static Material emerald;
-    static Material jade;
-    static Material obsidian;
-    static Material pearl;
-    static Material ruby;
-    static Material turquoise;
-    static Material brass;
-    static Material bronze;
-    static Material chrome;
-    static Material copper;
-    static Material gold;
-    static Material silver;
-    static Material black_plastic;
-    static Material cyan_plastic;
-    static Material green_plastic;
-    static Material red_plastic;
-    static Material white_plastic;
-    static Material yellow_plastic;
-    static Material black_rubber;
-    static Material cyan_rubber;
-    static Material green_rubber;
-    static Material red_rubber;
-    static Material white_rubber;
-    static Material yellow_rubber;
+    static LitMaterial emerald;
+    static LitMaterial jade;
+    static LitMaterial obsidian;
+    static LitMaterial pearl;
+    static LitMaterial ruby;
+    static LitMaterial turquoise;
+    static LitMaterial brass;
+    static LitMaterial bronze;
+    static LitMaterial chrome;
+    static LitMaterial copper;
+    static LitMaterial gold;
+    static LitMaterial silver;
+    static LitMaterial black_plastic;
+    static LitMaterial cyan_plastic;
+    static LitMaterial green_plastic;
+    static LitMaterial red_plastic;
+    static LitMaterial white_plastic;
+    static LitMaterial yellow_plastic;
+    static LitMaterial black_rubber;
+    static LitMaterial cyan_rubber;
+    static LitMaterial green_rubber;
+    static LitMaterial red_rubber;
+    static LitMaterial white_rubber;
+    static LitMaterial yellow_rubber;
 
     // function to mix two materials with a proportion
-    static Material mix(Material m1, Material m2, float mix = 0.5f);
+    static LitMaterial mix(LitMaterial m1, LitMaterial m2, float mix = 0.5f);
 };
 
 #endif

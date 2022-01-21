@@ -1,16 +1,15 @@
 #ifndef CUBE_HPP
 #define CUBE_HPP
 
-#include "Graphics/Objects/Model.h"
+#include "Graphics/Objects/ModelLoading.h"
 #include "Graphics/Rendering/Material.h"
 
-class Cube : public Model {
+class Cube : public ModelLoading {
 public:
 	
-	Material material;
+	LitMaterial material;
 
-	Cube(glm::vec3 pos = glm::vec3(0.0f), glm::vec3 size = glm::vec3(1.0f))
-		: Model(pos, size) {}
+	Cube() {}
 
 	void Initialize() {
 		int numbOfVertices = 36;

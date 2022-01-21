@@ -13,9 +13,6 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/type_ptr.hpp"
 
-#include "Graphics/Rendering/Material.h"
-
-
 class Shader {
 
 public:
@@ -41,8 +38,6 @@ public:
 	void Set4Float(const std::string& name, aiColor4D color);
 	void Set4Float(const std::string& name, glm::vec4 v);
 	void SetBool(const std::string& name, bool value);
-	void SetMaterial(Material material);
-
 };
 
 #endif

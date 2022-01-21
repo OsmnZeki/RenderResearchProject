@@ -21,20 +21,9 @@ public:
 		float k0,
 		float k1,
 		float k2,
-		glm::vec3 pos,
-		glm::vec3 size)
+		glm::vec3 pos)
 		: lightColor(lightColor),
-		pointLight({ pos, k0, k1, k2, ambient, diffuse, specular }),
-		Cube(pos, size) {}
-
-	void Render(Shader shader) {
-		//set light color
-
-		shader.Set3Float("lightColor", lightColor);
-
-		Cube::Render(shader);
-	}
-
+		pointLight({ pos, k0, k1, k2, ambient, diffuse, specular }) {}
 };
 
 #endif
