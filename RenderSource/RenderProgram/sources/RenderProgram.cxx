@@ -154,7 +154,7 @@ void CustomRender::Render() {
 		shader.Activate();
 		shader.Set3Float("viewPos", cameras[activeCamera].cameraPos);
 
-		dirLight.direction =glm::vec3(glm::rotate(glm::mat4(1.0f), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::vec4(dirLight.direction, 1.0f));
+		dirLight.direction =glm::vec3(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f * deltaTime) , glm::vec3(1.0f, 0.0f, 0.0f)) * glm::vec4(dirLight.direction, 1.0f));
 		dirLight.Render(shader);
 
 		if (spotLightOn) {

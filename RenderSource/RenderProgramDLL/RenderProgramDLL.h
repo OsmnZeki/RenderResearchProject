@@ -6,7 +6,7 @@
 #include"RenderProgram.h"
 #include"Screen.h"
 #include "Graphics/Rendering/Shader.h"
-#include "Graphics/Objects/Model.h"
+#include "Graphics/Objects/ModelLoading.h"
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
 
