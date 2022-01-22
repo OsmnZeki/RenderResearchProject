@@ -44,9 +44,9 @@ void MeshRenderer::Render(Transform transform)
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, transform.position);
 	model = glm::scale(model, transform.size);
-	material.shader.SetMat4("model", model);
+	material->shader->SetMat4("model", model);
 
-	material.ConfigurationShader();
+	material->ConfigurationShader();
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, 0);
@@ -57,7 +57,7 @@ void MeshRenderer::Render(Transform transform)
 
 void MeshRenderer::LightRender(Transform transform, glm::vec3 lightColor)
 {
-	material.shader.Set3Float("lightColor", lightColor);
+	
 
 	Render(transform);
 }

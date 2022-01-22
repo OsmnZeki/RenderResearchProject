@@ -17,9 +17,9 @@ struct Transform {
 class MeshRenderer {
 
 public: 
-	Material material;
+	Material* material;
 	Mesh mesh;
-
+	
 	unsigned int VAO;
 
 

@@ -15,8 +15,8 @@
 class Material {
 public:
 
-    Shader shader;
-    virtual void ConfigurationShader() { }
+    Shader* shader;
+    virtual void ConfigurationShader() = 0;
 };
 
 class LitMaterial : public Material {
@@ -66,6 +66,17 @@ public:
 
     // function to mix two materials with a proportion
     static LitMaterial mix(LitMaterial m1, LitMaterial m2, float mix = 0.5f);
+};
+
+class UnlitMaterial : public Material {
+public:
+
+    UnlitMaterial();
+    UnlitMaterial(glm::vec3 color);
+
+    void ConfigurationShader() override;
+
+    glm::vec3 color;
 };
 
 #endif

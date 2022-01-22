@@ -19,7 +19,7 @@ class ModelLoading {
 public:
 
 	std::vector<Mesh> meshes;
-	std::vector<Material> materials;
+	std::vector<Material*> materials;
 
 	ModelLoading(bool noTex = false);
 
@@ -35,7 +35,7 @@ protected:
 
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	Material LoadMaterials(aiMesh* mesh, const aiScene* scene);
+	Material& LoadMaterials(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> LoadTextures(aiMaterial* mat, aiTextureType type);
 
 };

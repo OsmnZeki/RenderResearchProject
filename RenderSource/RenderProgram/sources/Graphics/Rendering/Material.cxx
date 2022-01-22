@@ -42,12 +42,12 @@ LitMaterial::LitMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specula
 
 void LitMaterial::ConfigurationShader()
 {
-	shader.SetFloat("material.shininess", 0.5f);
+	shader->SetFloat("material.shininess", 0.5f);
 	if (textures.size() == 0) {
 		// materials
-		shader.Set4Float("material.diffuse", glm::vec4(diffuse, 1));
-		shader.Set4Float("material.specular", glm::vec4(specular, 1));
-		shader.SetInt("noTex", 1);
+		shader->Set4Float("material.diffuse", glm::vec4(diffuse, 1));
+		shader->Set4Float("material.specular", glm::vec4(specular, 1));
+		shader->SetInt("noTex", 1);
 	}
 	else {
 		// textures
@@ -71,7 +71,7 @@ void LitMaterial::ConfigurationShader()
 			}
 
 			// set the shader value
-			shader.SetInt(name, i);
+			shader->SetInt(name, i);
 			// bind texture
 			textures[i].Bind();
 		}
@@ -88,4 +88,17 @@ LitMaterial LitMaterial::mix(LitMaterial m1, LitMaterial m2, float mix) {
         m1.specular * mix + m2.specular * (1 - mix),
         m1.shininess * mix + m2.shininess * (1 - mix)
     };
+}
+
+UnlitMaterial::UnlitMaterial()
+{
+}
+
+UnlitMaterial::UnlitMaterial(glm::vec3 color) : color(color)
+{
+}
+
+void UnlitMaterial::ConfigurationShader()
+{
+	shader->Set3Float("color", color);
 }

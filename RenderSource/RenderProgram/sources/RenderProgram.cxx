@@ -73,6 +73,7 @@ void CustomRender::Render() {
 		return;
 	}
 
+
 	// glad: load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -83,21 +84,21 @@ void CustomRender::Render() {
 	screen.SetParameters();
 
 	//shaders compile
-	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.fs");
-	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lamp.fs");
+	Shader shader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lit.fs");
+	Shader lampShader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/unlit.fs");
 
 	LitMaterial objectMaterial;
-	LitMaterial lampMaterial;
+	UnlitMaterial lampMaterial{ glm::vec3(1) };
 
-	objectMaterial.shader = shader;
-	lampMaterial.shader = lampShader;
+	objectMaterial.shader = &shader;
+	lampMaterial.shader = &lampShader;
 
 	ModelLoading trolModel;
-	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
+	trolModel.LoadModel("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 	Transform trolTransform = { glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f) };
 	MeshRenderer trolMeshRenderer;
 	trolMeshRenderer.material = trolModel.materials[0];
-	trolMeshRenderer.material.shader = shader;
+	trolMeshRenderer.material->shader = &shader;
 	trolMeshRenderer.mesh = trolModel.meshes[0];
 	trolMeshRenderer.Setup();
 
@@ -118,14 +119,13 @@ void CustomRender::Render() {
 	Lamp lamps[4];
 	for (int i = 0; i < 4; i++) {
 
-		lamps[i] = Lamp(glm::vec3(1.0f),//set material
-			glm::vec4(0.05f, 0.05f, 0.05f,1.0f), glm::vec4(0.8f, 0.8f, 0.8f,1.0f), glm::vec4(1.0f),
+		lamps[i] = Lamp(glm::vec4(0.05f, 0.05f, 0.05f,1.0f), glm::vec4(0.8f, 0.8f, 0.8f,1.0f), glm::vec4(1.0f),
 			1.0f, 0.07f, 0.032f,
 			lambTransforms[i].position);
 
 		lamps[i].Initialize();
 		lambMeshRenderers[i].mesh = lamps[i].meshes[0];
-		lambMeshRenderers[i].material.shader = lampShader;
+		lambMeshRenderers[i].material = &lampMaterial;
 		lambMeshRenderers[i].Setup();
 	}
 
@@ -190,7 +190,7 @@ void CustomRender::Render() {
 		lampShader.SetMat4("view", view);
 		lampShader.SetMat4("projection", projection);
 		for (int i = 0; i < 4; i++) {
-			lambMeshRenderers[i].LightRender(lambTransforms[i],lamps[i].lightColor);
+			lambMeshRenderers[i].Render(lambTransforms[i]);
 		}
 
 		screen.NewFrame();

@@ -24,7 +24,7 @@ void ModelLoading::ProcessNode(aiNode* node, const aiScene* scene) {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(ProcessMesh(mesh, scene));
-		materials.push_back(LoadMaterials(mesh, scene));
+		materials.push_back(&LoadMaterials(mesh, scene));
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -79,10 +79,10 @@ Mesh ModelLoading::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 	return Mesh(vertices, indices);
 }
 
-Material ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
+Material& ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Texture> textures;
-	LitMaterial returnMaterial;
+	LitMaterial* returnMaterial = new LitMaterial();
 
 	// process materials
 	if (mesh->mMaterialIndex >= 0) {
@@ -98,12 +98,12 @@ Material ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &spec);
 
 			glm::vec3 diffuse = { diff.r,diff.g,diff.b };
-			returnMaterial.diffuse = diffuse;
+			returnMaterial->diffuse = diffuse;
 
 			glm::vec3 specular = { spec.r,spec.g,spec.b };
-			returnMaterial.specular = specular;
+			returnMaterial->specular = specular;
 
-			return returnMaterial;
+			return *returnMaterial;
 		}
 
 		// diffuse maps
@@ -114,8 +114,8 @@ Material ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
 		std::vector<Texture> specularMaps = LoadTextures(material, aiTextureType_SPECULAR);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-		returnMaterial.textures = textures;
-		return returnMaterial;
+		returnMaterial->textures = textures;
+		return *returnMaterial;
 	}
 }
 
