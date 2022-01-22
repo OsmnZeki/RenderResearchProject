@@ -95,7 +95,7 @@ void CustomRender::Render() {
 
 	ModelLoading trolModel;
 	trolModel.LoadModel("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
-	Transform trolTransform = { glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f) };
+	Transform trolTransform = { glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f), glm::vec3(0,0,0) };
 	MeshRenderer trolMeshRenderer;
 	trolMeshRenderer.material = trolModel.materials[0];
 	trolMeshRenderer.material->shader = &shader;

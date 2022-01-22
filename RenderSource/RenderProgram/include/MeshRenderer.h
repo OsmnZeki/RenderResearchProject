@@ -25,7 +25,6 @@ public:
 
 	void Setup();
 	void Render(Transform transform);
-	void LightRender(Transform transform , glm::vec3 lightColor);
 	void CleanUp();
 
 private:

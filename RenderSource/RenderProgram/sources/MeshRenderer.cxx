@@ -42,8 +42,14 @@ void MeshRenderer::Setup()
 void MeshRenderer::Render(Transform transform)
 {
 	glm::mat4 model = glm::mat4(1.0f);
+
 	model = glm::translate(model, transform.position);
+	model = glm::rotate(model, glm::radians(transform.rotation.r), glm::vec3(1, 0, 0));
+	model = glm::rotate(model, glm::radians(transform.rotation.g), glm::vec3(0, 1, 0));
+	model = glm::rotate(model, glm::radians(transform.rotation.b), glm::vec3(0, 0, 1));
 	model = glm::scale(model, transform.size);
+	
+	
 	material->shader->SetMat4("model", model);
 
 	material->ConfigurationShader();
@@ -55,12 +61,6 @@ void MeshRenderer::Render(Transform transform)
 
 }
 
-void MeshRenderer::LightRender(Transform transform, glm::vec3 lightColor)
-{
-	
-
-	Render(transform);
-}
 
 void MeshRenderer::CleanUp()
 {
