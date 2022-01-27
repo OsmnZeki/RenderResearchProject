@@ -117,7 +117,6 @@ void TextureLoad(Texture* texture, bool flip)
 Mesh* CreateMesh()
 {
 	Mesh* mesh = new Mesh();
-	mesh->noTex = true;
 	return mesh;
 }
 
@@ -130,9 +129,9 @@ void MeshSetVerticesPos(Mesh* mesh, float* pos, int sizeOfVertices)
 	for (int i = 0; i < sizeOfVertices; i++)
 	{
 		ret[i].pos = glm::vec3(
-			pos[i *3 + 0],
-			pos[i *3+ 1],
-			pos[i *3+ 2]
+			pos[i * 3 + 0],
+			pos[i * 3 + 1],
+			pos[i * 3 + 2]
 		);
 	}
 
@@ -153,9 +152,9 @@ void MeshSetVerticesNormal(Mesh* mesh, float* normal)
 	for (int i = 0; i < mesh->verticesSize; i++)
 	{
 		mesh->vertices[i].normal = glm::vec3(
-			normal[i *3+ 0],
-			normal[i *3+ 1],
-			normal[i *3+ 2]
+			normal[i * 3 + 0],
+			normal[i * 3 + 1],
+			normal[i * 3 + 2]
 		);
 	}
 }
@@ -165,45 +164,9 @@ void MeshSetVerticesTexCoord(Mesh* mesh, float* texCoord)
 	for (int i = 0; i < mesh->verticesSize; i++)
 	{
 		mesh->vertices[i].texCoord = glm::vec2(
-			texCoord[i *2+ 0],
-			texCoord[i *2+ 1]
+			texCoord[i * 2 + 0],
+			texCoord[i * 2 + 1]
 		);
-	}
-}
-
-void AddTextureToMesh(Mesh* mesh, Texture* texture)
-{
-	if (mesh != NULL && texture != NULL) {
-		mesh->noTex = false;
-		mesh->textures.push_back(*texture);
-	}
-}
-
-void MeshCleanUp(Mesh* mesh)
-{
-	if (mesh != NULL) {
-		mesh->CleanUp();
-	}
-}
-
-void MeshSetup(Mesh* mesh, int setupConfig)
-{
-	if (mesh != NULL) {
-		mesh->Setup((MeshSetupConfiguration)setupConfig);
-	}
-}
-
-void MeshSetDiffuse(Mesh* mesh, float* diffuse)
-{
-	if (mesh != NULL) {
-		mesh->diffuse = glm::vec4(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
-	}
-}
-
-void MeshSetSpecular(Mesh* mesh, float* specular)
-{
-	if (mesh != NULL) {
-		mesh->specular = glm::vec4(specular[0], specular[1], specular[2], specular[3]);
 	}
 }
 
@@ -212,55 +175,39 @@ void MeshSetSpecular(Mesh* mesh, float* specular)
 
 #pragma region ModelFunctions
 
-Model* NewModel()
+ModelLoading* LoadModel(const char* path)
 {
-	Model* model = new Model();
-	return model;
+	ModelLoading* modelLoading = new ModelLoading();
+	modelLoading->LoadModel(path);
+	return modelLoading;
 }
 
-void LoadModel(Model* model, const char* modelPath)
+int GetTotalMeshCount(ModelLoading* modelLoading)
 {
-	std::string path = modelPath;
-	model->LoadModel(path);
+	return modelLoading->meshes.size();
 }
 
-void ModelRender(Model* model, Shader* shader)
+int GetTotalMaterialCount(ModelLoading* modelLoading)
 {
-	model->Render(*shader);
+	return modelLoading->materials.size();
 }
 
-void ModelCleanUp(Model* model)
+Mesh* GetIdxMeshesFromModel(ModelLoading* modelLoading, int idx)
 {
-	model->CleanUp();
+	return &modelLoading->meshes[idx];
 }
 
-void AddMeshToModel(Model* model, Mesh* mesh)
+Material* GetIdxMaterialFromModel(ModelLoading* modelLoading, int idx)
 {
-	if (model != NULL && mesh != NULL) {
-		
-		model->meshes.push_back(*mesh);
-	}
+	return modelLoading->materials[idx];
 }
 
-void SetPosAndSize(Model* model, float* pos, float* size)
-{
-	glm::vec3 vecPos = glm::vec3(pos[0], pos[1], pos[2]);
-	glm::vec3 vecSize = glm::vec3(size[0], size[1], size[2]);
 
-	model->pos = vecPos;
-	model->size = vecSize;
-}
 
-Mesh* GetMesh(Model* model, int meshIdx)
-{
-	if (model != NULL) {
-		return &model->meshes[meshIdx];
-	}
-}
 #pragma endregion
 
-
 #pragma region InputFunctions
+
 bool GetKeyDown(int keyCode)
 {
 	return KeyboardInput::KeyWentDown(keyCode);
@@ -359,8 +306,121 @@ void Rotate(glm::mat4* modelMatrix, float degree, float* axisOfRotation, float* 
 	newDirection[2] = rotate.z;
 }
 
+#pragma endregion
+
+#pragma region MaterialFunctions
+
+Material* NewLitMaterial()
+{
+	LitMaterial* litMaterial = new LitMaterial();
+	return litMaterial;
+}
+
+void SetShaderToMaterial(Material* material, Shader* shader)
+{
+	material->shader = shader;
+}
+
+void SetAmbientToMaterial(LitMaterial* material, float* ambient)
+{
+	material->ambient = glm::vec4(ambient[0], ambient[1], ambient[2], 1);
+}
+
+void SetDiffuseToMaterial(LitMaterial* material, float* diffuse)
+{
+	material->diffuse = glm::vec4(diffuse[0], diffuse[1], diffuse[2], 1);
+}
+
+void SetSpecularToMaterial(LitMaterial* material, float* specular)
+{
+	material->specular = glm::vec4(specular[0], specular[1], specular[2], 1);
+}
+
+void SetShininessToMaterial(LitMaterial* material, float shininess)
+{
+	material->shininess = shininess;
+}
+
+void AddTextureToMaterial(LitMaterial* material, Texture* texture)
+{
+	material->textures.push_back(*texture);
+}
+
+Material* NewUnlitMaterial()
+{
+	UnlitMaterial* unlitMaterial = new UnlitMaterial();
+	return unlitMaterial;
+}
+
+void SetColorToMaterial(UnlitMaterial* material, float* color)
+{
+	material->color = glm::vec4(color[0], color[1], color[2], color[3]);
+}
 
 #pragma endregion
+
+#pragma region MeshRendererFunctions
+
+MeshRenderer* NewMeshRenderer()
+{
+	return new MeshRenderer();
+}
+
+void SetMeshToMeshRenderer(MeshRenderer* meshRenderer, Mesh* mesh)
+{
+	meshRenderer->mesh = *mesh;
+}
+
+void SetMaterialToMeshRenderer(MeshRenderer* meshRenderer, Material* material)
+{
+	meshRenderer->material = material;
+}
+
+void SetupMeshRenderer(MeshRenderer* meshRenderer)
+{
+	meshRenderer->Setup();
+}
+
+void RenderMeshRenderer(MeshRenderer* meshRenderer, Transform* transform)
+{
+	meshRenderer->Render(*transform);
+}
+
+void CleanUpMeshRenderer(MeshRenderer* meshRenderer)
+{
+	meshRenderer->CleanUp();
+}
+
+
+#pragma endregion
+
+#pragma region TransformFunctions
+
+Transform* NewTransform()
+{
+	return new Transform();
+}
+
+void SetTransformPosition(Transform* transform, float* pos)
+{
+	transform->position = glm::vec3(pos[0], pos[1], pos[2]);
+}
+
+void SetTransformSize(Transform* transform, float* size)
+{
+	transform->size = glm::vec3(size[0], size[1], size[2]);
+}
+
+void SetTransformRotation(Transform* transform, float* rotation)
+{
+	transform->rotation = glm::vec3(rotation[0], rotation[1], rotation[2]);
+}
+
+
+#pragma endregion
+
+
+
 
 
 

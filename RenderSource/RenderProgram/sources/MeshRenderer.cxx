@@ -61,10 +61,34 @@ void MeshRenderer::Render(Transform transform)
 
 }
 
-
 void MeshRenderer::CleanUp()
 {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+}
+
+
+void MeshRendererAll::SetupAll()
+{
+	for (int i = 0; i < meshRenderers.size(); i++)
+	{
+		meshRenderers[i].Setup();
+	}
+}
+
+void MeshRendererAll::RenderAll()
+{
+	for (int i = 0; i < meshRenderers.size(); i++)
+	{
+		meshRenderers[i].Render(transforms[i]);
+	}
+}
+
+void MeshRendererAll::CleanUpAll()
+{
+	for (int i = 0; i < meshRenderers.size(); i++)
+	{
+		meshRenderers[i].CleanUp();
+	}
 }

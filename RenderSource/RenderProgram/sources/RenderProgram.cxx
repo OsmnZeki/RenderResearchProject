@@ -81,11 +81,12 @@ void CustomRender::Render() {
 		return;
 	}
 
+
 	screen.SetParameters();
 
 	//shaders compile
-	Shader shader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lit.fs");
-	Shader lampShader("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/unlit.fs");
+	Shader shader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs", "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/lit.fs");
+	Shader lampShader("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/object.vs" , "D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Shaders/unlit.fs");
 
 	LitMaterial objectMaterial;
 	UnlitMaterial lampMaterial{ glm::vec3(1) };
@@ -94,7 +95,7 @@ void CustomRender::Render() {
 	lampMaterial.shader = &lampShader;
 
 	ModelLoading trolModel;
-	trolModel.LoadModel("C:/Unity/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
+	trolModel.LoadModel("D:/GitRepos/SimulationResearchProject/SimulationResearchProject/Test/DLLTest/DLLTest/Assets/Models/Trol/scene.gltf");
 	Transform trolTransform = { glm::vec3(0.0,0.0,0.0f), glm::vec3(0.05f), glm::vec3(0,0,0) };
 	MeshRenderer trolMeshRenderer;
 	trolMeshRenderer.material = trolModel.materials[0];

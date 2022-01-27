@@ -34,5 +34,5 @@ Mesh::Mesh() {
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
-	: vertices(vertices), indices(indices) {}
+	: vertices(vertices), indices(indices), verticesSize(vertices.size()) {}
 

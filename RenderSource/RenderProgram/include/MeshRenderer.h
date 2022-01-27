@@ -29,6 +29,15 @@ public:
 
 private:
 	unsigned int VBO, EBO;
+};
 
+class MeshRendererAll {
 
+public:
+	std::vector<MeshRenderer> meshRenderers;
+	std::vector<Transform> transforms;
+
+	void SetupAll();
+	void RenderAll();
+	void CleanUpAll();
 };
