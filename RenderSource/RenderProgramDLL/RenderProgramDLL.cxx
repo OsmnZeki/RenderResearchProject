@@ -321,6 +321,11 @@ void SetShaderToMaterial(Material* material, Shader* shader)
 	material->shader = shader;
 }
 
+Shader* GetShaderFromMaterial(Material* material)
+{
+	return material->shader;
+}
+
 void SetAmbientToMaterial(LitMaterial* material, float* ambient)
 {
 	material->ambient = glm::vec4(ambient[0], ambient[1], ambient[2], 1);

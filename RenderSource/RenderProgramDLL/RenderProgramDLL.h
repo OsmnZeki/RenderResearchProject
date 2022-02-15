@@ -81,6 +81,7 @@
 	//Material functions
 	_RENDER_PROGRAM_DLL_H_ Material* NewLitMaterial();
 	_RENDER_PROGRAM_DLL_H_ void SetShaderToMaterial(Material* material, Shader* shader);
+	_RENDER_PROGRAM_DLL_H_ Shader* GetShaderFromMaterial(Material* material);
 	_RENDER_PROGRAM_DLL_H_ void SetAmbientToMaterial(LitMaterial* material,float* ambient);
 	_RENDER_PROGRAM_DLL_H_ void SetDiffuseToMaterial(LitMaterial* material,float* diffuse);
 	_RENDER_PROGRAM_DLL_H_ void SetSpecularToMaterial(LitMaterial* material,float* specular);
