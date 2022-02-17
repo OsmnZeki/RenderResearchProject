@@ -79,7 +79,7 @@ void Screen::Terminate()
 
 void Screen::Update()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -106,52 +106,4 @@ void Screen::ProcessInput()
 		if (KeyboardInput::Key(GLFW_KEY_ESCAPE)) {
 			SetShouldClose(true);
 		}
-
-		/*if (KeyboardInput::KeyWentDown(GLFW_KEY_L)) {
-			spotLightOn = !spotLightOn;
-		}
-
-		if (KeyboardInput::KeyWentDown(GLFW_KEY_TAB))
-		{
-			activeCamera += (activeCamera == 0) ? 1 : -1;
-		}
-
-		if (KeyboardInput::Key(GLFW_KEY_SPACE)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::UP, dt);
-		}
-		if (KeyboardInput::Key(GLFW_KEY_LEFT_SHIFT)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::DOWN, dt);
-		}
-		if (KeyboardInput::Key(GLFW_KEY_D)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::RIGHT, dt);
-		}
-		if (KeyboardInput::Key(GLFW_KEY_A)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::LEFT, dt);
-		}
-		if (KeyboardInput::Key(GLFW_KEY_W)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::FORWARD, dt);
-		}
-		if (KeyboardInput::Key(GLFW_KEY_S)) {
-
-			cameras[activeCamera].UpdateCameraPos(CameraDirection::BACKWARD, dt);
-		}
-
-		double dx = MouseInput::GetDx();
-		double dy = MouseInput::GetDy();
-		if (dx != 0 || dy != 0)
-		{
-
-			cameras[activeCamera].UpdataCameraDirection(dx, dy);
-		}
-
-		double scrollDy = MouseInput::GetScrollDy();
-		if (scrollDy != 0)
-		{
-			cameras[activeCamera].UpdateCameraZoom(scrollDy);
-		}*/
 }

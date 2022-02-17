@@ -49,6 +49,11 @@ void ScreenProcessInput(Screen* screen)
 	screen->ProcessInput();
 }
 
+void SetClearColor(Screen* screen, float* clearColor)
+{
+	screen->clearColor = glm::vec4(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+}
+
 #pragma endregion
 
 #pragma region ShaderFunction
