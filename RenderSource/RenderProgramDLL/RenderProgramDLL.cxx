@@ -118,6 +118,8 @@ void TextureLoad(Texture* texture, bool flip)
 	texture->Load(flip);
 }
 
+#pragma endregion
+
 #pragma region MeshFunctions
 Mesh* CreateMesh()
 {

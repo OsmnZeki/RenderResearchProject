@@ -31,6 +31,9 @@ std::vector<Vertex> Vertex::SetVertices(float* vertices, int numOfVertices) {
 }
 
 Mesh::Mesh() {
+	verticesSize = 0;
+	vertices = std::vector<Vertex>();
+	indices = std::vector<unsigned int>();
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
