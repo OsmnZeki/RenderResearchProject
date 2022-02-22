@@ -19,9 +19,12 @@ Screen* CreateScreen(int width, int height)
 		//return;
 	}
 
-	screen->SetParameters();
-
 	return screen;
+}
+
+_RENDER_PROGRAM_DLL_H_ void ScreenSetParameters(Screen* screen)
+{
+	screen->SetParameters();
 }
 
 bool ScreenShouldClose(Screen* screen)
@@ -428,12 +431,41 @@ void SetTransformRotation(Transform* transform, float* rotation)
 	transform->rotation = glm::vec3(rotation[0], rotation[1], rotation[2]);
 }
 
-
 #pragma endregion
 
+#pragma region OpenGLFunctions
 
+_RENDER_PROGRAM_DLL_H_ void OpenGLEnable(int glEnum)
+{
+	OpenGLFunctions::GLEnable(glEnum);
+}
 
+_RENDER_PROGRAM_DLL_H_ void OpenGLDisable(int glEnum)
+{
+	OpenGLFunctions::GLDisable(glEnum);
+}
 
+_RENDER_PROGRAM_DLL_H_ void OpenGLClear(int glEnum)
+{
+	OpenGLFunctions::GLClear(glEnum);
+}
+
+_RENDER_PROGRAM_DLL_H_ void OpenGLStencilMask(int mask)
+{
+	OpenGLFunctions::GLStencilMask(mask);
+}
+
+_RENDER_PROGRAM_DLL_H_ void OpenGLStencilFunc(int func, int ref, int mask)
+{
+	OpenGLFunctions::GLStencilFunc(func, ref, mask);
+}
+
+_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass)
+{
+	OpenGLFunctions::GLStencilOp(sfail, dpfail, dppass);
+}
+
+#pragma endregion
 
 
 

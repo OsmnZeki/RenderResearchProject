@@ -10,11 +10,13 @@
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
 #include "MeshRenderer.h"
+#include "OpenGLFunctions/OpenGLFunctions.h"
 
 #include"iostream"
 
 	//screen functions
 	_RENDER_PROGRAM_DLL_H_ Screen* CreateScreen(int width, int height);
+	_RENDER_PROGRAM_DLL_H_ void ScreenSetParameters(Screen* screen);
 	_RENDER_PROGRAM_DLL_H_ bool ScreenShouldClose(Screen* screen);
 	_RENDER_PROGRAM_DLL_H_ void ScreenUpdate(Screen* screen);
 	_RENDER_PROGRAM_DLL_H_ void ScreenNewFrame(Screen* screen);
@@ -104,5 +106,14 @@
 	_RENDER_PROGRAM_DLL_H_ void SetTransformPosition(Transform* transform, float* pos);
 	_RENDER_PROGRAM_DLL_H_ void SetTransformSize(Transform* transform, float* size);
 	_RENDER_PROGRAM_DLL_H_ void SetTransformRotation(Transform* transform, float* rotation);
+
+	//DepthTest functions
+	_RENDER_PROGRAM_DLL_H_ void OpenGLEnable(int glEnum);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLDisable(int glEnum);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLClear(int glEnum);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilMask(int mask);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilFunc(int func, int ref, int mask);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass);
+
 
 #endif

@@ -2,6 +2,7 @@
 #include "Screen.h"
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
+#include "OpenGLFunctions/OpenGLFunctions.h"
 
 
 
@@ -68,8 +69,6 @@ void Screen::SetParameters()
 	glfwSetKeyCallback(window, KeyboardInput::KeyCallback);
 
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Screen::Terminate()
@@ -80,8 +79,6 @@ void Screen::Terminate()
 void Screen::Update()
 {
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Screen::NewFrame()
