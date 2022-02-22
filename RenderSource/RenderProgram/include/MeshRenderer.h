@@ -17,27 +17,15 @@ struct Transform {
 class MeshRenderer {
 
 public: 
-	Material* material;
 	Mesh mesh;
 	
 	unsigned int VAO;
 
 
 	void Setup();
-	void Render(Transform transform);
+	void Render(Transform transform, Material* material);
 	void CleanUp();
 
 private:
 	unsigned int VBO, EBO;
-};
-
-class MeshRendererAll {
-
-public:
-	std::vector<MeshRenderer> meshRenderers;
-	std::vector<Transform> transforms;
-
-	void SetupAll();
-	void RenderAll();
-	void CleanUpAll();
 };

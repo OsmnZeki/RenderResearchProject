@@ -39,7 +39,7 @@ void MeshRenderer::Setup()
 
 }
 
-void MeshRenderer::Render(Transform transform)
+void MeshRenderer::Render(Transform transform, Material* material)
 {
 	glm::mat4 model = glm::mat4(1.0f);
 
@@ -49,46 +49,20 @@ void MeshRenderer::Render(Transform transform)
 	model = glm::rotate(model, glm::radians(transform.rotation.b), glm::vec3(0, 0, 1));
 	model = glm::scale(model, transform.size);
 	
-	
+	material->shader->Activate();
 	material->shader->SetMat4("model", model);
-
 	material->ConfigurationShader();
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	glActiveTexture(GL_TEXTURE0);
-
 }
+
 
 void MeshRenderer::CleanUp()
 {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-}
-
-
-void MeshRendererAll::SetupAll()
-{
-	for (int i = 0; i < meshRenderers.size(); i++)
-	{
-		meshRenderers[i].Setup();
-	}
-}
-
-void MeshRendererAll::RenderAll()
-{
-	for (int i = 0; i < meshRenderers.size(); i++)
-	{
-		meshRenderers[i].Render(transforms[i]);
-	}
-}
-
-void MeshRendererAll::CleanUpAll()
-{
-	for (int i = 0; i < meshRenderers.size(); i++)
-	{
-		meshRenderers[i].CleanUp();
-	}
 }

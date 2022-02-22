@@ -57,7 +57,7 @@ bool spotLightOn = true;
 
 void CustomRender::Render() {
 
-	Screen screen= Screen(800,600);
+	/*Screen screen= Screen(800,600);
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -203,7 +203,7 @@ void CustomRender::Render() {
 		lambMeshRenderers[i].CleanUp();
 	}
 
-	glfwTerminate();
+	glfwTerminate();*/
 }
 
 

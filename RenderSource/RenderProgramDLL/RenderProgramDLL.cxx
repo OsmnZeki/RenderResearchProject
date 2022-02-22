@@ -386,19 +386,14 @@ void SetMeshToMeshRenderer(MeshRenderer* meshRenderer, Mesh* mesh)
 	meshRenderer->mesh = *mesh;
 }
 
-void SetMaterialToMeshRenderer(MeshRenderer* meshRenderer, Material* material)
-{
-	meshRenderer->material = material;
-}
-
 void SetupMeshRenderer(MeshRenderer* meshRenderer)
 {
 	meshRenderer->Setup();
 }
 
-void RenderMeshRenderer(MeshRenderer* meshRenderer, Transform* transform)
+void RenderMeshRenderer(MeshRenderer* meshRenderer, Transform* transform, Material* material)
 {
-	meshRenderer->Render(*transform);
+	meshRenderer->Render(*transform,material);
 }
 
 void CleanUpMeshRenderer(MeshRenderer* meshRenderer)
@@ -435,35 +430,36 @@ void SetTransformRotation(Transform* transform, float* rotation)
 
 #pragma region OpenGLFunctions
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLEnable(int glEnum)
+void OpenGLEnable(int glEnum)
 {
 	OpenGLFunctions::GLEnable(glEnum);
 }
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLDisable(int glEnum)
+void OpenGLDisable(int glEnum)
 {
 	OpenGLFunctions::GLDisable(glEnum);
 }
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLClear(int glEnum)
+void OpenGLClear(int glEnum)
 {
 	OpenGLFunctions::GLClear(glEnum);
 }
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLStencilMask(int mask)
+void OpenGLStencilMask(int mask)
 {
 	OpenGLFunctions::GLStencilMask(mask);
 }
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLStencilFunc(int func, int ref, int mask)
+void OpenGLStencilFunc(int func, int ref, int mask)
 {
 	OpenGLFunctions::GLStencilFunc(func, ref, mask);
 }
 
-_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass)
+void OpenGLStencilOp(int sfail, int dpfail, int dppass)
 {
 	OpenGLFunctions::GLStencilOp(sfail, dpfail, dppass);
 }
+
 
 #pragma endregion
 

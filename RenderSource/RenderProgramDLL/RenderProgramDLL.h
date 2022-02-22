@@ -96,9 +96,8 @@
 	//MeshRenderer functions
 	_RENDER_PROGRAM_DLL_H_ MeshRenderer* NewMeshRenderer();
 	_RENDER_PROGRAM_DLL_H_ void SetMeshToMeshRenderer(MeshRenderer* meshRenderer, Mesh* mesh);
-	_RENDER_PROGRAM_DLL_H_ void SetMaterialToMeshRenderer(MeshRenderer* meshRenderer, Material* material);
 	_RENDER_PROGRAM_DLL_H_ void SetupMeshRenderer(MeshRenderer* meshRenderer);
-	_RENDER_PROGRAM_DLL_H_ void RenderMeshRenderer(MeshRenderer* meshRenderer, Transform* transform);
+	_RENDER_PROGRAM_DLL_H_ void RenderMeshRenderer(MeshRenderer* meshRenderer, Transform* transform, Material* material);
 	_RENDER_PROGRAM_DLL_H_ void CleanUpMeshRenderer(MeshRenderer* meshRenderer);
 
 	//Transform functions
