@@ -1,4 +1,4 @@
-Github için gitignore içerisine LocalPathi ekle gitmesin
+
 
 Karşılaşılan Hatalar ve Kurulum Notları
 *assimp.dll bulunamadı hatası için ---> build klasörü içerisindeki tester klasörüne CommonLibrary içerisindeki assimp dll'i kopyalanacak. (Bunu güzel bir hale getir)

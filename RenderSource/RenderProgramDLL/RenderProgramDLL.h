@@ -92,6 +92,7 @@
 	_RENDER_PROGRAM_DLL_H_ void AddTextureToMaterial(LitMaterial* material,Texture* texture);
 	_RENDER_PROGRAM_DLL_H_ Material* NewUnlitMaterial();
 	_RENDER_PROGRAM_DLL_H_ void SetColorToMaterial(UnlitMaterial* material, float* color);
+	_RENDER_PROGRAM_DLL_H_ void AddTextureToUnlitMaterial(UnlitMaterial* material, Texture* texture);
 
 	//MeshRenderer functions
 	_RENDER_PROGRAM_DLL_H_ MeshRenderer* NewMeshRenderer();

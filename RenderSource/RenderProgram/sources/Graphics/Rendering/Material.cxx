@@ -100,5 +100,23 @@ UnlitMaterial::UnlitMaterial(glm::vec3 color) : color(color)
 
 void UnlitMaterial::ConfigurationShader()
 {
-	shader->Set3Float("color", color);
+	if (textures.size() == 0) {
+		shader->Set3Float("color", color);
+		shader->SetInt("noTex", 1);
+	}
+	else {
+		for (unsigned int i = 0; i < textures.size(); i++) {
+			// activate texture
+			glActiveTexture(GL_TEXTURE0 + i);
+
+			std::string name = "texture0";
+
+			// set the shader value
+			shader->SetInt(name, i);
+			// bind texture
+			textures[i].Bind();
+		}
+	}
+
+	
 }

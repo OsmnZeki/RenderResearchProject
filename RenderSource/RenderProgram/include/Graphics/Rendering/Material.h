@@ -77,6 +77,7 @@ public:
     void ConfigurationShader() override;
 
     glm::vec3 color;
+    std::vector<Texture> textures;
 };
 
 #endif

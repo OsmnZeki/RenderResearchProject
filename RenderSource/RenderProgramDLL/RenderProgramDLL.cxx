@@ -372,6 +372,10 @@ void SetColorToMaterial(UnlitMaterial* material, float* color)
 	material->color = glm::vec4(color[0], color[1], color[2], color[3]);
 }
 
+void AddTextureToUnlitMaterial(UnlitMaterial* material, Texture* texture) {
+	material->textures.push_back(*texture);
+}
+
 #pragma endregion
 
 #pragma region MeshRendererFunctions
