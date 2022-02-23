@@ -39,6 +39,7 @@
 	//Texture functions
 	_RENDER_PROGRAM_DLL_H_ Texture* NewTexture(const char* directory, const char* name, int type);
 	_RENDER_PROGRAM_DLL_H_ void TextureLoad(Texture* texture, bool flip);
+	_RENDER_PROGRAM_DLL_H_ void TextureSetWrapParameters(Texture* texture, int wrapSParameter, int wrapTParameter);
 
 
 	//Mesh functions

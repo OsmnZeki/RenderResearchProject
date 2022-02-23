@@ -21,6 +21,8 @@ public:
 	void Generate();
 	void Load(bool flip = true);
 
+	void SetWrapParameters(int wrapSParameter, int wrapTParameter);
+
 	void Bind();
 
 };

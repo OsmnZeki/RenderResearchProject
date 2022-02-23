@@ -121,6 +121,11 @@ void TextureLoad(Texture* texture, bool flip)
 	texture->Load(flip);
 }
 
+void TextureSetWrapParameters(Texture* texture, int wrapSParameter, int wrapTParameter)
+{
+	texture->SetWrapParameters(wrapSParameter, wrapTParameter);
+}
+
 #pragma endregion
 
 #pragma region MeshFunctions
