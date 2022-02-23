@@ -43,6 +43,10 @@ LitMaterial::LitMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specula
 void LitMaterial::ConfigurationShader()
 {
 	shader->SetFloat("material.shininess", 0.5f);
+
+	shader->SetInt("transparent", transparent);
+
+
 	if (textures.size() == 0) {
 		// materials
 		shader->Set4Float("material.diffuse", glm::vec4(diffuse, 1));
@@ -100,6 +104,7 @@ UnlitMaterial::UnlitMaterial(glm::vec3 color) : color(color)
 
 void UnlitMaterial::ConfigurationShader()
 {
+	shader->SetInt("transparent", transparent);
 	if (textures.size() == 0) {
 		shader->Set3Float("color", color);
 		shader->SetInt("noTex", 1);

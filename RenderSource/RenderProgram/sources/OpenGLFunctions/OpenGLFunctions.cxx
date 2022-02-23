@@ -31,5 +31,11 @@ void OpenGLFunctions::GLStencilOp(int sfail, int dpfail, int dppass)
 	glStencilOp(sfail, dpfail, dppass);
 }
 
+void OpenGLFunctions::GLBlendFunc(int sfactor, int dfactor)
+{
+	glBlendFunc(sfactor, dfactor);
+}
+
+
 
 

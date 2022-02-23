@@ -16,6 +16,7 @@ class Material {
 public:
 
     Shader* shader;
+    bool transparent;
     virtual void ConfigurationShader() = 0;
 };
 

@@ -10,5 +10,6 @@ public:
 	static void GLStencilMask(int mask);
 	static void GLStencilFunc(int func, int ref, int mask);
 	static void GLStencilOp(int sfail, int dpfail, int dppass);
+	static void GLBlendFunc(int sfactor, int dfactor);
 
 };

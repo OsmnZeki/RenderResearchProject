@@ -381,6 +381,11 @@ void AddTextureToUnlitMaterial(UnlitMaterial* material, Texture* texture) {
 	material->textures.push_back(*texture);
 }
 
+void SetTransparent(Material* material, bool isTransparent)
+{
+	material->transparent = isTransparent;
+}
+
 #pragma endregion
 
 #pragma region MeshRendererFunctions
@@ -467,6 +472,11 @@ void OpenGLStencilFunc(int func, int ref, int mask)
 void OpenGLStencilOp(int sfail, int dpfail, int dppass)
 {
 	OpenGLFunctions::GLStencilOp(sfail, dpfail, dppass);
+}
+
+void OpenGLBlendFunc(int sfactor, int dfactor)
+{
+	OpenGLFunctions::GLBlendFunc(sfactor, dfactor);
 }
 
 

@@ -94,6 +94,7 @@
 	_RENDER_PROGRAM_DLL_H_ Material* NewUnlitMaterial();
 	_RENDER_PROGRAM_DLL_H_ void SetColorToMaterial(UnlitMaterial* material, float* color);
 	_RENDER_PROGRAM_DLL_H_ void AddTextureToUnlitMaterial(UnlitMaterial* material, Texture* texture);
+	_RENDER_PROGRAM_DLL_H_ void SetTransparent(Material* material, bool isTransparent);
 
 	//MeshRenderer functions
 	_RENDER_PROGRAM_DLL_H_ MeshRenderer* NewMeshRenderer();
@@ -115,6 +116,7 @@
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilMask(int mask);
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilFunc(int func, int ref, int mask);
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass);
+	_RENDER_PROGRAM_DLL_H_ void OpenGLBlendFunc(int sfactor, int dfactor);
 
 
 #endif
