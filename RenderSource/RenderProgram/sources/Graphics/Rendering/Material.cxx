@@ -35,6 +35,10 @@ LitMaterial LitMaterial::yellow_rubber = { glm::vec3(0.05, 0.05, 0.0), glm::vec3
 
 LitMaterial::LitMaterial()
 {
+	ambient = glm::vec3(1, 1, 1);
+	diffuse = glm::vec3(1, 1, 1);
+	specular = glm::vec3(1, 1, 1);
+	shininess = 0;
 }
 
 LitMaterial::LitMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess) 
@@ -45,12 +49,13 @@ void LitMaterial::ConfigurationShader()
 	shader->SetFloat("material.shininess", 0.5f);
 
 	shader->SetInt("transparent", transparent);
-
+	shader->Set4Float("material.diffuse", glm::vec4(diffuse, 1));
+	shader->Set4Float("material.specular", glm::vec4(specular, 1));
+	shader->SetInt("noTex", 0);
 
 	if (textures.size() == 0) {
 		// materials
-		shader->Set4Float("material.diffuse", glm::vec4(diffuse, 1));
-		shader->Set4Float("material.specular", glm::vec4(specular, 1));
+		
 		shader->SetInt("noTex", 1);
 	}
 	else {
@@ -105,8 +110,10 @@ UnlitMaterial::UnlitMaterial(glm::vec3 color) : color(color)
 void UnlitMaterial::ConfigurationShader()
 {
 	shader->SetInt("transparent", transparent);
+	shader->Set3Float("color", color);
+	shader->SetInt("noTex", 0);
 	if (textures.size() == 0) {
-		shader->Set3Float("color", color);
+		
 		shader->SetInt("noTex", 1);
 	}
 	else {
