@@ -103,14 +103,14 @@ UnlitMaterial::UnlitMaterial()
 {
 }
 
-UnlitMaterial::UnlitMaterial(glm::vec3 color) : color(color)
+UnlitMaterial::UnlitMaterial(glm::vec4 color) : color(color)
 {
 }
 
 void UnlitMaterial::ConfigurationShader()
 {
 	shader->SetInt("transparent", transparent);
-	shader->Set3Float("color", color);
+	shader->Set4Float("color", color);
 	shader->SetInt("noTex", 0);
 	if (textures.size() == 0) {
 		

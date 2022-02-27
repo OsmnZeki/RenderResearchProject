@@ -19,7 +19,7 @@ public:
 	Texture(std::string dir, std::string path, aiTextureType type);
 
 	void Generate();
-	void Load(bool flip = true);
+	void Load(bool flip);
 
 	void SetWrapParameters(int wrapSParameter, int wrapTParameter);
 

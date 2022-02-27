@@ -73,11 +73,11 @@ class UnlitMaterial : public Material {
 public:
 
     UnlitMaterial();
-    UnlitMaterial(glm::vec3 color);
+    UnlitMaterial(glm::vec4 color);
 
     void ConfigurationShader() override;
 
-    glm::vec3 color;
+    glm::vec4 color;
     std::vector<Texture> textures;
 };
 

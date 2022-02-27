@@ -377,8 +377,21 @@ void SetColorToMaterial(UnlitMaterial* material, float* color)
 	material->color = glm::vec4(color[0], color[1], color[2], color[3]);
 }
 
+void GetColorFromMaterial(UnlitMaterial* material, float* color)
+{
+	for (int i = 0; i < 4; i++) {
+		color[i] = material->color[i];
+	}
+}
+
 void AddTextureToUnlitMaterial(UnlitMaterial* material, Texture* texture) {
 	material->textures.push_back(*texture);
+}
+
+Texture* GetTextureFromUnlitMaterial(UnlitMaterial* material)
+{
+	if (material->textures.empty()) return NULL;
+	return &material->textures[0];
 }
 
 void SetTransparent(Material* material, bool isTransparent)
