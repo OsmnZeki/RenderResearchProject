@@ -97,10 +97,10 @@ Material& ModelLoading::LoadMaterials(aiMesh* mesh, const aiScene* scene)
 			aiColor4D spec(1.0f);
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &spec);
 
-			glm::vec3 diffuse = { diff.r,diff.g,diff.b };
+			glm::vec4 diffuse = { diff.r,diff.g,diff.b, diff.a };
 			returnMaterial->diffuse = diffuse;
 
-			glm::vec3 specular = { spec.r,spec.g,spec.b };
+			glm::vec4 specular = { spec.r,spec.g,spec.b, spec.a };
 			returnMaterial->specular = specular;
 
 			return *returnMaterial;

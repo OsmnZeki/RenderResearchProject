@@ -24,14 +24,14 @@ class LitMaterial : public Material {
 public:
 
     LitMaterial();
-    LitMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess);
+    LitMaterial(glm::vec4 ambient, glm::vec4 diffuse, glm::vec4 specular, float shininess);
     
     void ConfigurationShader() override;
 
     // lighting values
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
+    glm::vec4 ambient;
+    glm::vec4 diffuse;
+    glm::vec4 specular;
     float shininess;
 
     std::vector<Texture> textures;

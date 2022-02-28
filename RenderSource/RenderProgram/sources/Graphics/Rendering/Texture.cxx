@@ -59,6 +59,9 @@ void Texture::Load(bool flip)
 	stbi_image_free(data);
 }
 
+
+
+
 void Texture::SetWrapParameters(int wrapSParameter, int wrapTParameter) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapSParameter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapTParameter);

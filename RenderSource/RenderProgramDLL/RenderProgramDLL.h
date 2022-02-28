@@ -48,6 +48,10 @@
 	_RENDER_PROGRAM_DLL_H_ void MeshSetIndices(Mesh* mesh, int* indices);
 	_RENDER_PROGRAM_DLL_H_ void MeshSetVerticesNormal(Mesh* mesh, float* normal);
 	_RENDER_PROGRAM_DLL_H_ void MeshSetVerticesTexCoord(Mesh* mesh, float* texCoord);
+	_RENDER_PROGRAM_DLL_H_ void MeshGetVerticesPos(Mesh* mesh, float* pos);
+	_RENDER_PROGRAM_DLL_H_ void MeshGetIndices(Mesh* mesh, int* indices);
+	_RENDER_PROGRAM_DLL_H_ void MeshGetVerticesNormal(Mesh* mesh, float* normal);
+	_RENDER_PROGRAM_DLL_H_ void MeshGetVerticesTexCoord(Mesh* mesh, float* texCoord);
 
 	
 	//model functions
@@ -90,6 +94,10 @@
 	_RENDER_PROGRAM_DLL_H_ void SetDiffuseToMaterial(LitMaterial* material,float* diffuse);
 	_RENDER_PROGRAM_DLL_H_ void SetSpecularToMaterial(LitMaterial* material,float* specular);
 	_RENDER_PROGRAM_DLL_H_ void SetShininessToMaterial(LitMaterial* material,float shininess);
+	_RENDER_PROGRAM_DLL_H_ void GetAmbientFromMaterial(LitMaterial* material, float* ambient);
+	_RENDER_PROGRAM_DLL_H_ void GetDiffuseFromMaterial(LitMaterial* material, float* diffuse);
+	_RENDER_PROGRAM_DLL_H_ void GetSpecularFromMaterial(LitMaterial* material, float* specular);
+	_RENDER_PROGRAM_DLL_H_ float GetShininessFromMaterial(LitMaterial* material);
 	_RENDER_PROGRAM_DLL_H_ void AddTextureToMaterial(LitMaterial* material,Texture* texture);
 	_RENDER_PROGRAM_DLL_H_ Material* NewUnlitMaterial();
 	_RENDER_PROGRAM_DLL_H_ void SetColorToMaterial(UnlitMaterial* material, float* color);

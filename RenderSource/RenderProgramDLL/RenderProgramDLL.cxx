@@ -126,6 +126,7 @@ void TextureSetWrapParameters(Texture* texture, int wrapSParameter, int wrapTPar
 	texture->SetWrapParameters(wrapSParameter, wrapTParameter);
 }
 
+
 #pragma endregion
 
 #pragma region MeshFunctions
@@ -182,6 +183,39 @@ void MeshSetVerticesTexCoord(Mesh* mesh, float* texCoord)
 			texCoord[i * 2 + 0],
 			texCoord[i * 2 + 1]
 		);
+	}
+}
+
+void MeshGetVerticesPos(Mesh* mesh, float* pos)
+{
+	for (int i = 0;i< mesh->vertices.size(); i++) {
+		pos[i*3+0] = mesh->vertices[i].pos.x;
+		pos[i*3+1] = mesh->vertices[i].pos.y;
+		pos[i*3+2] = mesh->vertices[i].pos.z;
+	}
+}
+
+void MeshGetIndices(Mesh* mesh, int* indices)
+{
+	for (unsigned int i = 0; i < mesh->verticesSize; i++) {
+		indices[i] = mesh->indices[i];
+	}
+}
+
+void MeshGetVerticesNormal(Mesh* mesh, float* normal)
+{
+	for (int i = 0; i < mesh->vertices.size(); i++) {
+		normal[i * 3 + 0] = mesh->vertices[i].normal.x;
+		normal[i * 3 + 1] = mesh->vertices[i].normal.y;
+		normal[i * 3 + 2] = mesh->vertices[i].normal.z;
+	}
+}
+
+void MeshGetVerticesTexCoord(Mesh* mesh, float* texCoord)
+{
+	for (int i = 0; i < mesh->vertices.size(); i++) {
+		texCoord[i * 2 + 0] = mesh->vertices[i].texCoord.x;
+		texCoord[i * 2 + 1] = mesh->vertices[i].texCoord.y;
 	}
 }
 
@@ -343,22 +377,48 @@ Shader* GetShaderFromMaterial(Material* material)
 
 void SetAmbientToMaterial(LitMaterial* material, float* ambient)
 {
-	material->ambient = glm::vec4(ambient[0], ambient[1], ambient[2], 1);
+	material->ambient = glm::vec4(ambient[0], ambient[1], ambient[2], ambient[3]);
 }
 
 void SetDiffuseToMaterial(LitMaterial* material, float* diffuse)
 {
-	material->diffuse = glm::vec4(diffuse[0], diffuse[1], diffuse[2], 1);
+	material->diffuse = glm::vec4(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
 }
 
 void SetSpecularToMaterial(LitMaterial* material, float* specular)
 {
-	material->specular = glm::vec4(specular[0], specular[1], specular[2], 1);
+	material->specular = glm::vec4(specular[0], specular[1], specular[2], specular[3]);
 }
 
 void SetShininessToMaterial(LitMaterial* material, float shininess)
 {
 	material->shininess = shininess;
+}
+
+void GetAmbientFromMaterial(LitMaterial* material, float* ambient)
+{
+	for (int i = 0; i < 4; i++) {
+		ambient[i] = material->ambient[i];
+	}
+}
+
+void GetDiffuseFromMaterial(LitMaterial* material, float* diffuse)
+{
+	for (int i = 0; i < 4; i++) {
+		diffuse[i] = material->diffuse[i];
+	}
+}
+
+void GetSpecularFromMaterial(LitMaterial* material, float* specular)
+{
+	for (int i = 0; i < 4; i++) {
+		specular[i] = material->specular[i];
+	}
+}
+
+float GetShininessFromMaterial(LitMaterial* material)
+{
+	return material->shininess;
 }
 
 void AddTextureToMaterial(LitMaterial* material, Texture* texture)
