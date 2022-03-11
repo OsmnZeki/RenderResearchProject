@@ -9,12 +9,13 @@
 #include "Graphics/Objects/ModelLoader.h"
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
-#include "MeshRenderer.h"
+//#include "MeshRenderer.h"
 #include "OpenGLFunctions/OpenGLFunctions.h"
 #include "Animations/Animator.h"
 #include "Graphics/Objects/Model.h"
 
 #include"iostream"
+#include <Graphics/Rendering/TextRenderer.h>
 
 
 	//screen functions
@@ -99,6 +100,7 @@
 	//GLMath functions
 	_RENDER_PROGRAM_DLL_H_ glm::mat4* LookAt(float* cameraPos, float* cameraFront, float* cameraUp);
 	_RENDER_PROGRAM_DLL_H_ glm::mat4* Perspective(float fovy, float aspect, float near, float far);
+	_RENDER_PROGRAM_DLL_H_ glm::mat4* Orthographic();
 	_RENDER_PROGRAM_DLL_H_ void Rotate(glm::mat4* modelMatrix, float degree, float* axisOfRotation, float* newDirection);
 
 	//Material functions
@@ -143,6 +145,10 @@
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass);
 	_RENDER_PROGRAM_DLL_H_ void OpenGLBlendFunc(int sfactor, int dfactor);
 
-
+	//TextRenderer function
+	_RENDER_PROGRAM_DLL_H_ TextRenderer* NewTextRenderer();
+	_RENDER_PROGRAM_DLL_H_ void LoadFontToTextRenderer(TextRenderer* textRenderer, Texture* m_texture, int widthRes, int heightRes, int cellHeight, int cellWidth, int initialASCII);
+	_RENDER_PROGRAM_DLL_H_ void SetupTextQuad(TextRenderer* textRenderer);
+	_RENDER_PROGRAM_DLL_H_ void RenderText(TextRenderer* textRenderer, Shader& s, const char*, float x, float y, float scale, float* color);
 
 #endif

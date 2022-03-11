@@ -400,6 +400,12 @@ glm::mat4* Perspective(float fovy, float aspect, float near, float far)
 	return mat4;
 }
 
+glm::mat4* Orthographic()
+{
+	glm::mat4* mat4 = new glm::mat4(glm::ortho(0.0f, 800.0f, 0.0f, 600.0f));
+	return mat4;
+}
+
 void Rotate(glm::mat4* modelMatrix, float degree, float* axisOfRotation, float* newDirection) {
 
 	glm::vec3 rotate = glm::vec3(glm::rotate(*modelMatrix, glm::radians(degree), glm::vec3(axisOfRotation[0], axisOfRotation[1], axisOfRotation[2])) * glm::vec4(newDirection[0], newDirection[1], newDirection[2], 1.0f));
@@ -605,8 +611,32 @@ void OpenGLBlendFunc(int sfactor, int dfactor)
 	OpenGLFunctions::GLBlendFunc(sfactor, dfactor);
 }
 
+#pragma endregion
+
+#pragma region TextRenderFunction
+
+TextRenderer* NewTextRenderer()
+{
+	return new TextRenderer();
+}
+
+void LoadFontToTextRenderer(TextRenderer* textRenderer, Texture* m_texture, int widthRes, int heightRes, int cellHeight, int cellWidth, int initialASCII)
+{
+	textRenderer->LoadFont(m_texture, widthRes, heightRes, cellHeight, cellWidth, initialASCII);
+}
+
+void SetupTextQuad(TextRenderer* textRenderer)
+{
+	textRenderer->SetupTextQuad();
+}
+
+void RenderText(TextRenderer* textRenderer, Shader& s, const char* text, float x, float y, float scale, float* color)
+{
+	textRenderer->RenderText(s, text, x, y, scale, glm::vec3(color[0], color[1], color[2]));
+}
 
 #pragma endregion
+
 
 
 
