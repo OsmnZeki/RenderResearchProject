@@ -222,38 +222,91 @@ void MeshGetVerticesTexCoord(Mesh* mesh, float* texCoord)
 #pragma endregion
 
 
+#pragma region ModelLoaderFunctions
+
+Model* LoadModel(const char* path)
+{
+	ModelLoader* modelLoader = new ModelLoader();
+	Model* model = modelLoader->LoadModel(path);
+	return model;
+}
+
+#pragma endregion
+
 #pragma region ModelFunctions
 
-ModelLoading* LoadModel(const char* path)
+int GetModelChilCount(Model* model)
 {
-	ModelLoading* modelLoading = new ModelLoading();
-	modelLoading->LoadModel(path);
-	return modelLoading;
+	return model->childCount;
 }
 
-int GetTotalMeshCount(ModelLoading* modelLoading)
+int GetMeshCount(Model* model)
 {
-	return modelLoading->meshes.size();
+	return model->meshes.size();
 }
 
-int GetTotalMaterialCount(ModelLoading* modelLoading)
+int GetMaterialCount(Model* model)
 {
-	return modelLoading->materials.size();
+	return model->materials.size();
 }
 
-Mesh* GetIdxMeshesFromModel(ModelLoading* modelLoading, int idx)
+Mesh* GetIdxMeshesFromModel(Model* model, int idx)
 {
-	return &modelLoading->meshes[idx];
+	return model->GetMesh(idx);
 }
 
-Material* GetIdxMaterialFromModel(ModelLoading* modelLoading, int idx)
+Material* GetIdxMaterialFromModel(Model* model, int idx)
 {
-	return modelLoading->materials[idx];
+	return model->GetMaterial(idx);
 }
 
+Model* GetChildModel(Model* model, int idx)
+{
+	return model->GetChildModel(idx);
+}
+
+int GetTotalMeshCount(Model* model)
+{
+	return model->totalMeshCount;
+}
+
+int GetTotalMaterialCount(Model* model)
+{
+	return model->totalMaterialCount;
+}
+
+#pragma endregion
+
+#pragma region AnimationFunctions
+
+Animation* GetAnimationFromPath(const char* animationPath, Model* model)
+{
+	Animation* animation = new Animation(animationPath, model);
+	return animation;
+}
+
+Animator* NewAnimator(Animation* animation)
+{
+	Animator* animator = new Animator(animation);
+	return animator;
+}
+
+void UpdateAnimation(Animator* animator, float dt)
+{
+	animator->UpdateAnimation(dt);
+}
+
+void SetBoneMatrixToShader(Animator* animator, Shader* shader)
+{
+	shader->Activate();
+	auto transforms = animator->GetFinalBoneMatrices();
+	for (int i = 0; i < transforms.size(); ++i)
+		shader->SetMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+}
 
 
 #pragma endregion
+
 
 #pragma region InputFunctions
 

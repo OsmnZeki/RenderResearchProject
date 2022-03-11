@@ -23,7 +23,7 @@
 
 #include "IO/Camera.h"
 #include "Screen.h"
-#include "Graphics/Objects/ModelLoading.h"
+#include "Graphics/Objects/ModelLoader.h"
 #include "Graphics/Model/Cube.h"
 #include "Graphics/Model/Lamp.h"
 

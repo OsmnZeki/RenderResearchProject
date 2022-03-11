@@ -6,13 +6,16 @@
 #include"RenderProgram.h"
 #include"Screen.h"
 #include "Graphics/Rendering/Shader.h"
-#include "Graphics/Objects/ModelLoading.h"
+#include "Graphics/Objects/ModelLoader.h"
 #include "IO/KeyboardInput.h"
 #include "IO/MouseInput.h"
 #include "MeshRenderer.h"
 #include "OpenGLFunctions/OpenGLFunctions.h"
+#include "Animations/Animator.h"
+#include "Graphics/Objects/Model.h"
 
 #include"iostream"
+
 
 	//screen functions
 	_RENDER_PROGRAM_DLL_H_ Screen* CreateScreen(int width, int height);
@@ -54,12 +57,24 @@
 	_RENDER_PROGRAM_DLL_H_ void MeshGetVerticesTexCoord(Mesh* mesh, float* texCoord);
 
 	
+	//modelloader functions
+	_RENDER_PROGRAM_DLL_H_ Model* LoadModel(const char* path);
+
 	//model functions
-	_RENDER_PROGRAM_DLL_H_ ModelLoading* LoadModel(const char* path);
-	_RENDER_PROGRAM_DLL_H_ int GetTotalMeshCount(ModelLoading* modelLoading);
-	_RENDER_PROGRAM_DLL_H_ int GetTotalMaterialCount(ModelLoading* modelLoading);
-	_RENDER_PROGRAM_DLL_H_ Mesh* GetIdxMeshesFromModel(ModelLoading* modelLoading, int idx);
-	_RENDER_PROGRAM_DLL_H_ Material* GetIdxMaterialFromModel(ModelLoading* modelLoading, int idx);
+	_RENDER_PROGRAM_DLL_H_ int GetModelChilCount(Model* model);
+	_RENDER_PROGRAM_DLL_H_ int GetMeshCount(Model* model);
+	_RENDER_PROGRAM_DLL_H_ int GetMaterialCount(Model* model);
+	_RENDER_PROGRAM_DLL_H_ Mesh* GetIdxMeshesFromModel(Model* model, int idx);
+	_RENDER_PROGRAM_DLL_H_ Material* GetIdxMaterialFromModel(Model* model, int idx);
+	_RENDER_PROGRAM_DLL_H_ Model* GetChildModel(Model* model, int idx);
+	_RENDER_PROGRAM_DLL_H_ int GetTotalMeshCount(Model* model);
+	_RENDER_PROGRAM_DLL_H_ int GetTotalMaterialCount(Model* model);
+
+	//animation functions
+	_RENDER_PROGRAM_DLL_H_ Animation* GetAnimationFromPath(const char* animationPath, Model* model);
+	_RENDER_PROGRAM_DLL_H_ Animator* NewAnimator(Animation* animation);
+	_RENDER_PROGRAM_DLL_H_ void UpdateAnimation(Animator* animator, float dt);
+	_RENDER_PROGRAM_DLL_H_ void SetBoneMatrixToShader(Animator* animator, Shader* shader);
 
 
 	//input functions
@@ -127,6 +142,7 @@
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilFunc(int func, int ref, int mask);
 	_RENDER_PROGRAM_DLL_H_ void OpenGLStencilOp(int sfail, int dpfail, int dppass);
 	_RENDER_PROGRAM_DLL_H_ void OpenGLBlendFunc(int sfactor, int dfactor);
+
 
 
 #endif

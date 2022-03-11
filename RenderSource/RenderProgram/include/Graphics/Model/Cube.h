@@ -1,10 +1,10 @@
 #ifndef CUBE_HPP
 #define CUBE_HPP
 
-#include "Graphics/Objects/ModelLoading.h"
+#include "Graphics/Objects/ModelLoader.h"
 #include "Graphics/Rendering/Material.h"
 
-class Cube : public ModelLoading {
+class Cube : public ModelLoader {
 public:
 	
 	LitMaterial material;
@@ -12,7 +12,7 @@ public:
 	Cube() {}
 
 	void Initialize() {
-		int numbOfVertices = 36;
+		/*int numbOfVertices = 36;
 
 		float vertices[] = {
 			//positions					normal				textcoords
@@ -70,9 +70,9 @@ public:
 
 		std::string tex1Path = FilePath::ImagePath + "image3_specular.png";
 		Texture tex1(tex1Path.c_str(), "material.specular");
-		tex1.Load();*/
+		tex1.Load();
 
-		meshes.push_back(Mesh(Vertex::SetVertices(vertices, numbOfVertices), indices));
+		meshes.push_back(Mesh(Vertex::SetVertices(vertices, numbOfVertices), indices));*/
 	}
 };
 
