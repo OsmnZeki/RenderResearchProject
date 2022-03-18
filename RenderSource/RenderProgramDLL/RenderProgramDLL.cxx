@@ -237,17 +237,17 @@ Model* LoadModel(const char* path)
 
 int GetModelChilCount(Model* model)
 {
-	return model->childCount;
+	return model->GetChildCount();
 }
 
 int GetMeshCount(Model* model)
 {
-	return model->meshes.size();
+	return model->GetMeshCount();
 }
 
 int GetMaterialCount(Model* model)
 {
-	return model->materials.size();
+	return model->GetMaterialCount();
 }
 
 Mesh* GetIdxMeshesFromModel(Model* model, int idx)

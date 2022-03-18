@@ -12,9 +12,8 @@
 #include <GLM/gtx/quaternion.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 
-#include <vector>;
-#include <string>;
 #include <AssimpGLMHelpers.h>
+#include <vector>
 
 struct KeyPosition
 {

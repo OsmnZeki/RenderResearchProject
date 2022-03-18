@@ -12,6 +12,7 @@
 
 
 #define MAX_BONE_INFLUENCE 4
+#define MAX_BONE 100
 
 struct Vertex {
 	glm::vec3 pos;

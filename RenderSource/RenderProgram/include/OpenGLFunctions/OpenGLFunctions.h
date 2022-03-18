@@ -1,6 +1,6 @@
 #include "GLAD/glad.h"
 
-static class OpenGLFunctions {
+class OpenGLFunctions {
 
 public:
 

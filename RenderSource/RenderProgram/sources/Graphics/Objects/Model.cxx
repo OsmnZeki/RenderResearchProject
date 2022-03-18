@@ -22,7 +22,7 @@ Model* Model::GetChildModel(int childIdx)
 
 int Model::GetMeshCount()
 {
-	return meshes.size();
+	return static_cast<int>(meshes.size());
 }
 
 Mesh* Model::GetMesh(int meshIdx)
@@ -36,7 +36,7 @@ Mesh* Model::GetMesh(int meshIdx)
 
 int Model::GetMaterialCount()
 {
-	return materials.size();
+	return static_cast<int>(materials.size());
 }
 
 Material* Model::GetMaterial(int materialIdx)

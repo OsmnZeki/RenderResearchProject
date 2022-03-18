@@ -178,14 +178,22 @@ void ModelLoader::SetVertexBoneDataToDefault(Vertex& vertex)
 
 void ModelLoader::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 {
+	if (weight < 0.01) return;
+		
 	for (int i = 0; i < MAX_BONE_INFLUENCE; ++i)
 	{
+		
 		if (vertex.m_BoneIDs[i] < 0)
 		{
 			vertex.m_Weights[i] = weight;
 			vertex.m_BoneIDs[i] = boneID;
 			break;
 		}
+		/*else if (vertex.m_Weights[i] < weight) {
+			vertex.m_Weights[i] = weight;
+			vertex.m_BoneIDs[i] = boneID;
+			break;
+		}*/
 	}
 }
 
@@ -209,6 +217,7 @@ void ModelLoader::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, ai
 		{
 			boneID = rootModel->m_BoneInfoMap[boneName].id;
 		}
+
 		assert(boneID != -1);
 		auto weights = mesh->mBones[boneIndex]->mWeights;
 		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
