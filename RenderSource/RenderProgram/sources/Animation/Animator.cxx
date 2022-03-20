@@ -2,8 +2,7 @@
 
 Animator::Animator(Animation* animation)
 {
-	m_CurrentTime = 0.0;
-	m_CurrentAnimation = animation;
+	PlayAnimation(animation);
 
 	m_FinalBoneMatrices.reserve(MAX_BONE);
 
@@ -26,6 +25,7 @@ void Animator::PlayAnimation(Animation* pAnimation)
 {
 	m_CurrentAnimation = pAnimation;
 	m_CurrentTime = 0.0f;
+	currentBoneInfoMap = pAnimation->GetBoneIDMap();
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, glm::mat4 parentTransform)
@@ -43,11 +43,10 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, glm::mat4 pare
 
 	glm::mat4 globalTransformation = parentTransform * nodeTransform;
 
-	auto boneInfoMap = m_CurrentAnimation->GetBoneIDMap();
-	if (boneInfoMap.find(nodeName) != boneInfoMap.end())
+	if (currentBoneInfoMap.find(nodeName) != currentBoneInfoMap.end())
 	{
-		int index = boneInfoMap[nodeName].id;
-		glm::mat4 offset = boneInfoMap[nodeName].offset;
+		int index = currentBoneInfoMap[nodeName].id;
+		glm::mat4 offset = currentBoneInfoMap[nodeName].offset;
 		m_FinalBoneMatrices[index] = globalTransformation * offset;
 	}
 

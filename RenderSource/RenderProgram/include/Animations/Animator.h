@@ -17,6 +17,7 @@ public:
 private:
 	std::vector<glm::mat4> m_FinalBoneMatrices;
 	Animation* m_CurrentAnimation;
+	std::map<std::string, BoneInfo> currentBoneInfoMap;
 	float m_CurrentTime;
 	float m_DeltaTime;
 };
