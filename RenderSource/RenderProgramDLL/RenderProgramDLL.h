@@ -16,6 +16,7 @@
 
 #include"iostream"
 #include <Graphics/Rendering/TextRenderer.h>
+#include <LineRenderer.h>
 
 
 	//screen functions
@@ -150,5 +151,13 @@
 	_RENDER_PROGRAM_DLL_H_ void LoadFontToTextRenderer(TextRenderer* textRenderer, Texture* m_texture, int widthRes, int heightRes, int cellHeight, int cellWidth, int initialASCII);
 	_RENDER_PROGRAM_DLL_H_ void SetupTextQuad(TextRenderer* textRenderer);
 	_RENDER_PROGRAM_DLL_H_ void RenderText(TextRenderer* textRenderer, Shader& s, const char*, float x, float y, float scale, float* color);
+
+	//LineRenderer functions
+	_RENDER_PROGRAM_DLL_H_ LineRenderer* NewLineRenderer();
+	_RENDER_PROGRAM_DLL_H_ void LineRendererSetup(LineRenderer* lineRenderer);
+	_RENDER_PROGRAM_DLL_H_ void LineRendererSetNewPosition(LineRenderer* lineRenderer, float* from, float* to);
+	_RENDER_PROGRAM_DLL_H_ void LineRendererSetNewColor(LineRenderer* lineRenderer, float* color);
+	_RENDER_PROGRAM_DLL_H_ void LineRender(LineRenderer* lineRenderer, Shader& s);
+	_RENDER_PROGRAM_DLL_H_ void LineRendererCleanUp(LineRenderer* lineRenderer);
 
 #endif

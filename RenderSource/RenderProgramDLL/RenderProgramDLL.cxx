@@ -637,6 +637,40 @@ void RenderText(TextRenderer* textRenderer, Shader& s, const char* text, float x
 
 #pragma endregion
 
+#pragma region LineRendererFunctions
+
+LineRenderer* NewLineRenderer()
+{
+	return new LineRenderer();
+}
+
+void LineRendererSetup(LineRenderer* lineRenderer)
+{
+	lineRenderer->Setup();
+}
+
+void LineRendererSetNewPosition(LineRenderer* lineRenderer, float* from, float* to)
+{
+	lineRenderer->SetNewLinePosition(glm::vec3(from[0], from[1], from[2]), glm::vec3(to[0], to[1], to[2]));
+}
+
+void LineRendererSetNewColor(LineRenderer* lineRenderer, float* color)
+{
+	lineRenderer->SetNewColor(glm::vec3(color[0], color[1], color[2]));
+}
+
+void LineRender(LineRenderer* lineRenderer, Shader& s)
+{
+	lineRenderer->Render(s);
+}
+
+void LineRendererCleanUp(LineRenderer* lineRenderer)
+{
+	lineRenderer->CleanUp();
+}
+
+#pragma endregion
+
 
 
 
