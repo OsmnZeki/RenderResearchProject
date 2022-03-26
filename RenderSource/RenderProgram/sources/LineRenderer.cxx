@@ -25,7 +25,7 @@ void LineRenderer::SetNewColor(glm::vec3 color)
 	this->color = color;
 }
 
-void LineRenderer::Render(Shader& s)
+void LineRenderer::Render(Shader& s, float lineWidth)
 {
 	s.Activate();
 	s.Set3Float("color", color.x, color.y, color.z);
@@ -35,7 +35,7 @@ void LineRenderer::Render(Shader& s)
 			{ from.x,from.y,from.z },
 			{ to.x,to.y,to.z },
 	};
-	glLineWidth(10);
+	glLineWidth(lineWidth);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

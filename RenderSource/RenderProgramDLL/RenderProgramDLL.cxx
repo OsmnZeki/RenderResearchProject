@@ -659,9 +659,9 @@ void LineRendererSetNewColor(LineRenderer* lineRenderer, float* color)
 	lineRenderer->SetNewColor(glm::vec3(color[0], color[1], color[2]));
 }
 
-void LineRender(LineRenderer* lineRenderer, Shader& s)
+void LineRender(LineRenderer* lineRenderer, Shader& s,float lineWidth)
 {
-	lineRenderer->Render(s);
+	lineRenderer->Render(s, lineWidth);
 }
 
 void LineRendererCleanUp(LineRenderer* lineRenderer)

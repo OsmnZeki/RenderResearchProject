@@ -18,7 +18,7 @@ public:
 	void Setup();
 	void SetNewLinePosition(glm::vec3 from, glm::vec3 to);
 	void SetNewColor(glm::vec3 color);
-	void Render(Shader& s);
+	void Render(Shader& s, float lineWidth);
 	void CleanUp();
 };
 

@@ -157,7 +157,7 @@
 	_RENDER_PROGRAM_DLL_H_ void LineRendererSetup(LineRenderer* lineRenderer);
 	_RENDER_PROGRAM_DLL_H_ void LineRendererSetNewPosition(LineRenderer* lineRenderer, float* from, float* to);
 	_RENDER_PROGRAM_DLL_H_ void LineRendererSetNewColor(LineRenderer* lineRenderer, float* color);
-	_RENDER_PROGRAM_DLL_H_ void LineRender(LineRenderer* lineRenderer, Shader& s);
+	_RENDER_PROGRAM_DLL_H_ void LineRender(LineRenderer* lineRenderer, Shader& s, float lineWidth);
 	_RENDER_PROGRAM_DLL_H_ void LineRendererCleanUp(LineRenderer* lineRenderer);
 
 #endif
