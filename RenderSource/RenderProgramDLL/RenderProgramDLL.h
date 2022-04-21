@@ -103,6 +103,8 @@
 	_RENDER_PROGRAM_DLL_H_ glm::mat4* Perspective(float fovy, float aspect, float near, float far);
 	_RENDER_PROGRAM_DLL_H_ glm::mat4* Orthographic();
 	_RENDER_PROGRAM_DLL_H_ void Rotate(glm::mat4* modelMatrix, float degree, float* axisOfRotation, float* newDirection);
+	_RENDER_PROGRAM_DLL_H_ void GetRayFromScreenSpace(float* screenPos, glm::mat4 projectionMat, glm::mat4 viewMat, float width, float height, float* result);
+
 
 	//Material functions
 	_RENDER_PROGRAM_DLL_H_ Material* NewLitMaterial();

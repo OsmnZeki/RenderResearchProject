@@ -414,6 +414,30 @@ void Rotate(glm::mat4* modelMatrix, float degree, float* axisOfRotation, float* 
 	newDirection[2] = rotate.z;
 }
 
+void GetRayFromScreenSpace(float* screenPos, glm::mat4 projectionMat, glm::mat4 viewMat, float width, float height, float* result)
+{
+	glm::vec2 screenPosVec = glm::vec2(screenPos[0], screenPos[1]);
+
+	float x = (2.0f * screenPosVec.x) / width - 1.0f;
+	float y = 1.0f - (2.0f * screenPosVec.y) / height;
+	float z = 1.0f;
+	glm::vec3 ray_nds = glm::vec3(x, y, z);
+
+	glm::vec4 ray_clip = glm::vec4(ray_nds.x,ray_nds.y, -1.0, 1.0);
+
+	glm::vec4 ray_eye = glm::inverse(projectionMat) * ray_clip;
+	ray_eye = glm::vec4(ray_eye.x,ray_eye.y, -1.0, 0.0);
+
+	glm::vec3 ray_wor = (glm::inverse(viewMat) * ray_eye);
+	// don't forget to normalise the vector at some point
+	ray_wor = glm::normalize(ray_wor);
+
+	result[0] = ray_wor.x;
+	result[1] = ray_wor.y;
+	result[2] = ray_wor.z;
+}
+
+
 #pragma endregion
 
 #pragma region MaterialFunctions
