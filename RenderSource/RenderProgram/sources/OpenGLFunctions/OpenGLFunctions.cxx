@@ -36,6 +36,11 @@ void OpenGLFunctions::GLBlendFunc(int sfactor, int dfactor)
 	glBlendFunc(sfactor, dfactor);
 }
 
+void OpenGLFunctions::GLDepthFunc(int func)
+{
+	glDepthFunc(func);
+}
+
 
 
 

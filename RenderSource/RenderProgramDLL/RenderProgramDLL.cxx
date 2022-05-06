@@ -646,6 +646,11 @@ void OpenGLBlendFunc(int sfactor, int dfactor)
 	OpenGLFunctions::GLBlendFunc(sfactor, dfactor);
 }
 
+void OpenGLDepthFunc(int func)
+{
+	OpenGLFunctions::GLDepthFunc(func);
+}
+
 #pragma endregion
 
 #pragma region TextRenderFunction
