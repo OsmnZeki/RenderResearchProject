@@ -381,6 +381,17 @@ glm::mat4* ReturnMat4(float value)
 	return mat4;
 }
 
+glm::mat3* ReturnMat3(float value)
+{
+	glm::mat3* mat3 = new glm::mat3(value);
+	return mat3;
+}
+
+glm::mat4* ReturnMat4FromMat4(glm::mat4* mat4)
+{
+	return new glm::mat4(glm::mat3(*mat4));
+}
+
 
 
 #pragma endregion
@@ -691,6 +702,35 @@ void LineRender(LineRenderer* lineRenderer, Shader& s,float lineWidth)
 void LineRendererCleanUp(LineRenderer* lineRenderer)
 {
 	lineRenderer->CleanUp();
+}
+
+#pragma endregion
+
+#pragma region Cubemap Functions
+
+
+Cubemaps* NewCubemap()
+{
+	return new Cubemaps();
+}
+
+void LoadTextureToCubemap(Cubemaps* cubemaps, Mesh* mesh, const char** texturePaths)
+{
+	std::vector<std::string> faces;
+	faces.push_back(texturePaths[0]);
+	faces.push_back(texturePaths[1]);
+	faces.push_back(texturePaths[2]);
+	faces.push_back(texturePaths[3]);
+	faces.push_back(texturePaths[4]);
+	faces.push_back(texturePaths[5]);
+
+	cubemaps->mesh = *mesh;
+	cubemaps->LoadCubemaps(faces);
+}
+
+void RenderCubemap(Cubemaps* cubemaps)
+{
+	cubemaps->Render();
 }
 
 #pragma endregion

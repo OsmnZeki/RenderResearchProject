@@ -17,6 +17,7 @@
 #include"iostream"
 #include <Graphics/Rendering/TextRenderer.h>
 #include <LineRenderer.h>
+#include <Graphics/Rendering/Cubemaps.h>
 
 
 	//screen functions
@@ -96,6 +97,8 @@
 
 	//GLMatrix functions
 	_RENDER_PROGRAM_DLL_H_ glm::mat4* ReturnMat4(float value);
+	_RENDER_PROGRAM_DLL_H_ glm::mat3* ReturnMat3(float value);
+	_RENDER_PROGRAM_DLL_H_ glm::mat4* ReturnMat4FromMat4(glm::mat4* mat4);
 	
 
 	//GLMath functions
@@ -161,5 +164,10 @@
 	_RENDER_PROGRAM_DLL_H_ void LineRendererSetNewColor(LineRenderer* lineRenderer, float* color);
 	_RENDER_PROGRAM_DLL_H_ void LineRender(LineRenderer* lineRenderer, Shader& s, float lineWidth);
 	_RENDER_PROGRAM_DLL_H_ void LineRendererCleanUp(LineRenderer* lineRenderer);
+
+	//Skybox functions
+	_RENDER_PROGRAM_DLL_H_ Cubemaps* NewCubemap();
+	_RENDER_PROGRAM_DLL_H_ void LoadTextureToCubemap(Cubemaps* cubemaps,Mesh* mesh, const char** texturePaths);
+	_RENDER_PROGRAM_DLL_H_ void RenderCubemap(Cubemaps* cubemaps);
 
 #endif
