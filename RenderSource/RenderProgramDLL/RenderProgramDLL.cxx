@@ -57,6 +57,16 @@ void SetClearColor(Screen* screen, float* clearColor)
 	screen->clearColor = glm::vec4(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 }
 
+float ScreenGetWidth(Screen* screen)
+{
+	return screen->SCR_WIDTH;
+}
+
+float ScreenGetHeight(Screen* screen)
+{
+	return screen->SCR_HEIGHT;
+}
+
 #pragma endregion
 
 #pragma region ShaderFunction

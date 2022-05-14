@@ -29,6 +29,8 @@
 	_RENDER_PROGRAM_DLL_H_ void ScreenTerminate(Screen* screen);
 	_RENDER_PROGRAM_DLL_H_ void ScreenProcessInput(Screen* screen);
 	_RENDER_PROGRAM_DLL_H_ void SetClearColor(Screen* screen,float* clearColor);
+	_RENDER_PROGRAM_DLL_H_ float ScreenGetWidth(Screen* screen);
+	_RENDER_PROGRAM_DLL_H_ float ScreenGetHeight(Screen* screen);
 
 
 	//shader functions

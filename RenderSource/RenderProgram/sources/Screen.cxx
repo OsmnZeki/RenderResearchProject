@@ -37,7 +37,7 @@ void Screen::ConfigureGLFW()
 
 bool Screen::Initialize()
 {
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL Tutorial", NULL, NULL);
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "MESP Simulator", NULL, NULL);
 
 	if (!window)
 	{
