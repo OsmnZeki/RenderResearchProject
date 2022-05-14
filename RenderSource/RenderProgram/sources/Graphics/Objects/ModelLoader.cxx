@@ -17,7 +17,7 @@ Model* ModelLoader::LoadModel(std::string path) {
 	rootModel->parent = NULL;
 	
 
-	directory = path.substr(0, path.find_last_of("/"));
+	directory = path.substr(0, path.find_last_of("\\"));
 	ProcessNode(scene->mRootNode, scene, rootModel, rootModel);
 
 	return rootModel;
